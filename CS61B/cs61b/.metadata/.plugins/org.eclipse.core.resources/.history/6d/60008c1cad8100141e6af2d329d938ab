@@ -1,0 +1,22 @@
+package graph;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+/** Unit tests for the Graph class.
+ *  @author Nguyet Duong
+ */
+public class LabeledGraphTesting {
+
+    @Test
+    public void directedEdgeTest() {
+    	DirectedGraph g = new DirectedGraph();
+    	
+    }
+
+}

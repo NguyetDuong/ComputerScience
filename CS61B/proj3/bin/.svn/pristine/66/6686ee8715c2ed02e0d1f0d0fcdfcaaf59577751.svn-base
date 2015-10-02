@@ -1,0 +1,55 @@
+package graph;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/** Unit tests for the Graph class.
+ *  @author
+ */
+public class GraphTesting {
+
+    // Add tests.  Here's a sample.
+
+    @Test
+    public void emptyGraph() {
+        DirectedGraph g = new DirectedGraph();
+        assertEquals("Initial graph has vertices", 0, g.vertexSize());
+        assertEquals("Initial graph has edges", 0, g.edgeSize());
+    }
+    
+    @Test
+    public void addMethodAndContains() {
+    	DirectedGraph g = new DirectedGraph();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	assertEquals(4, g.vertexSize());
+    	assertEquals(true, g.contains(1));
+    	assertEquals(false, g.contains(5));
+    	assertEquals(true, g.contains(2));
+    	assertEquals(true, g.contains(3));
+    	assertEquals(true, g.contains(4));
+    }
+    @Test
+    public void addTwoAndContainsTwo() {
+    	DirectedGraph g = new DirectedGraph();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add(1, 3);
+    	g.add(3, 4);
+    	g.add(2, 3);
+    	g.add(3, 1);
+    	g.add(3, 1);
+    	assertEquals(true, g.contains(1, 3));
+    	assertEquals(true, g.contains(2, 3));
+    	assertEquals(true, g.contains(3, 1));
+    	assertEquals(true, g.contains(3, 4));
+    	assertEquals(false, g.contains(5, 7));
+    	assertEquals(false, g.contains(4, 3));
+    	assertEquals(false, g.contains(3, 2));
+    }
+
+}

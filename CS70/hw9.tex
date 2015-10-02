@@ -1,0 +1,223 @@
+
+%%% PAGE DIMENSIONS
+%\usepackage{geometry} % to change the page dimensions
+%\geometry{a4paper} % or letterpaper (US) or a5paper or....
+%\geometry{margin=2in} % for example, change the margins to 2 inches all round
+%\geometry{landscape} % set up the page for landscape
+
+%%% PACKAGES
+%\usepackage{graphicx} % support the \includegraphics command and options
+%\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{amsmath, amsfonts}
+%\usepackage{booktabs} % for much better looking tables
+%\usepackage{array} % for better arrays (eg matrices) in maths
+%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+%\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+%These packages are all incorporated in the memoir class to one degree or another...
+
+
+\iffalse
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape}
+
+
+\fi
+
+%%% The "real" document content comes below...
+
+
+\documentclass[12pt,fleqn]{article}
+\usepackage{latexsym,epsf,amssymb,amsmath,amsthm,graphicx}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\def\Homework{9}%Number of Homework
+\def\Session{Spring 2015}
+\def\Name{Nguyet Minh Duong} % Fill in your name here
+
+\markboth{}{CS70, \Session, HW \Homework, \Name}
+\pagestyle{myheadings}
+
+\title{CS 70, \Session\ --- Solutions to Homework \Homework}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Due Monday March 23 at 12 noon}
+
+
+%%% EVERYTHING BELOW THIS WILL REMAIN THE SAME!!!
+
+\begin{enumerate}
+  \item \textbf{Counting practice}
+  
+  % ${n \choose k}$  
+  
+  \begin{enumerate}
+    \item 
+    $\sum_{k = 38}^{75} {75 \choose k}$
+    
+    Starting at 38, we make sure that the numbers of ones's will always be greater than zero's. K stands for how many one's there will be in the binary combination -- taking in condition of ALL positions it may be. We repeat this until it is all the way to 75 one's. That's why we have to add it all up.
+    % $\mathbb{Q}$
+    
+    \item 
+    ${13 \choose 4} * {39 \choose 9}$
+    
+    The first choose is to make sure we pick 4 cards from the same suite -- which uses the choose technique. In this situation, it will be the heart suite. Then for the second choose, it is to pick any numbers that are NOT in the heart suite, meaning we take out 13 cards from the deck. That gives us 39, and we need to choose 9 that does not repeat. 
+    % $\mathbb{R}$
+    
+    \item 
+    $8!$
+    
+    Because none of these letters repeat, we don't need to worry about uniqueness in this situation. It is factorial because after we use a word, we have to take it out of the set. 
+    % $\mathbb{C}$
+
+    \item 
+    $\frac{11!}{2!4!4!} - \frac{9!}{3!3!} - \frac{7!}{2!2!2!}$
+    
+    The first fraction gives us how many unique anagrams we can make in terms of position of each letters, and the divison takes away the uniqueness of each i's, s's and p's. The second fraction will take out all the repition orders/uniqueness of having the word PSI within the first fraction, the denominator will take away the uniqueness of each letters. Similarly, the third fraction does the same but it will take away two PSI in terms of uniqueness in the first fraction. 
+    
+    \item
+    $6^6 - 6!$
+    
+    We take all the posibilities possible. Since there are 6 dies and each has 6 sides, we raise the dies by the number of sides it has, which is ${6^6}$. Then we subtract it by the possibility of it having 6 unique values -- in this case it will be $6!$ because we take a value out every time we roll it. 
+    
+    \item
+	$\sum_{k = 1}^{n} {n \choose k}$	
+	
+	For a set of numbers, you can only order it in an increasing order in a selected amount of ways. That's why we do the choose technique, as it forces it to be specific in terms of orders and where everything is placed. This will give us exactly how many positions/orders it can have in that specific order. It is a summation because we need to find it for every set-size. 
+    % $\mathbb{N}^4$
+    
+    \item  
+    YOUR ANSWER HERE
+    % $\mathbb{Z}^n$
+    
+    \item  
+    YOUR ANSWER HERE
+    
+    \item 
+    None because 4 cannot be divided by 6. As a result, we cannot find a value such that inside the set will give us 6. 
+    
+    \item  
+	$8x \equiv 4$ (mod 36) 
+	
+	$4x \equiv 1$ (mod 9)
+	
+	So within the set, we need to find a value such that while multiplied by 4, it will give us 1 when divided by 9. So the value 9 will give us this, and all can only be 9 because any other multiple of 9 will give you more than one.  
+      
+  \end{enumerate}
+    
+  
+  \newpage
+  \item \textbf{Combinatorial proofs}
+
+    We can start with a known binomial:
+    $(1 + x)^n = \sum_{k=0}^n {n \choose k}x^k$
+    
+    Differentiate both sides by x: $n(1 + x)^{n-1} = \sum_{k=0}^n {n \choose k}k * x^{k-1}$
+    
+    Now we see that this is very similar to what we want to have, which is:
+    
+    $n * 2^{n-1} = \sum_{k=0}^n {n \choose k}1^{k-1}$. We can notice that this is possible to get from the equation we previously got above, which is for when x = 1. 
+  
+  
+  \newpage
+  \item \textbf{Sample space and events}
+  
+  \begin{enumerate}
+    \item 
+    HHH, HHT, HTH, THH, TTT, TTH, THT, HTT
+    
+    8 outcomes. 
+    
+    \item 
+    HHH, HHT, HTH, HTT
+    
+    4 outcomes.
+    
+    \item 
+    HHH, HTH, THH, TTH
+    
+    4 outcomes.
+    
+    \item 
+    HHH, HTH
+    
+    2 outcomes.
+    
+    \item 
+    HHH, HHT, HTH, THH, TTH
+    
+    5 outcomes.
+    
+    \item 
+    A and B are NOT disjoint. 
+    
+    $C = A \cap B$ and $D = A \cup B$
+    
+    \item 
+    $|\omega| = 2^n$ \\
+    $|A| = 2^{n-1}$ \\
+    $|B| = 2^{n-1}$ \\
+    $|C| = 2^{n-2}$ \\
+    $|D| = 2^{n} - 2$
+    
+    \item 
+    $\frac{2}{3}$ because there are three sides left over. Either heads, heads, or tails. Therefore the chances of it being heads will be out of these threes. 
+      
+  \end{enumerate}
+  
+  
+  \newpage
+  \item \textbf{Parking lots}
+  
+  \begin{enumerate}
+    \item 
+    $\frac{11! * 2}{12!}$
+    
+    First we have all the numbers out on the bottom, which is $12!$ because for every person who parks in, we move out. Then at the top, we decide that the CEO and the person is one unit taking "one space", so everytime they park in, we remove it. However, since they can also CEO and person or person and CEO, that's why we multiple it by two. 
+    
+    \item 
+	$\frac{8! * 3}{12!}$
+    
+    Similar to the problem above. We make the CEO, 3 cars, and ourselves as one. Since the cars inside can be rearranged in any way, it can be multiplied 3 times for how many different way it can be arranged. Then we divide it by the $12!$ because of all the numbers of possibilities. It's all factorials because we are all unique spots and persons. 
+    
+    \item 
+    $\frac{{9 \choose 5}}{{11 \choose 5}}$
+    
+    The denominator is the possibility of where the cars can be on either sides of having a car from us. The top is the possibility of removing 5 cars from cars that are NOT besides us -- meaning the 9 other cars. 
+      
+  \end{enumerate}
+  
+  
+  \newpage
+  \item \textbf{Rolling dice (conditional probability)}
+  
+  \begin{enumerate}
+    \item 
+    $\frac{6}{36}$
+    
+    \item 
+    $\frac{1}{3}$
+    
+    \item 
+    $\frac{11}{36}$
+    
+    \item 
+    $\frac{5}{6} * \frac{5}{6}$
+      
+  \end{enumerate}
+  
+  
+  \newpage
+  \item \textbf{Happy Families}
+ 	$\frac{1}{3}$ because first we remove all the posibility of non-males. That means on the gg-pair is removed. Therefore we have three possibilities left. Then we know that the only combination with two males is bb. So that means there's only 1 out of the three so that it will give us such an answer.
+
+
+\end{enumerate}
+
+\end{document}

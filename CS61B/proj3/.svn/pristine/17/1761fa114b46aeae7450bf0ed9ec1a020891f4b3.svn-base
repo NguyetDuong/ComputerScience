@@ -1,0 +1,265 @@
+package graph;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+
+/* See restrictions in Graph.java. */
+
+/** A partial implementation of Graph containing elements common to
+ *  directed and undirected graphs.
+ *
+ *  @author Nguyet Duong
+ */
+abstract class GraphObj extends Graph {
+
+	private ArrayList<Integer> vertex;
+	private ArrayList<ArrayList<Integer>> sucessors;
+	
+    /** A new, empty Graph. */
+    GraphObj() {
+        // FIXME -- FIXED
+    	vertex = new ArrayList<Integer>();
+    	sucessors = new ArrayList<ArrayList<Integer>>();
+    }
+
+    @Override
+    public int vertexSize() {
+        // FIXME -- FIXED
+        return vertex.size();
+    }
+
+    @Override
+    public int maxVertex() {
+        // FIXME -- FIXED
+    	if (vertex.size() == 0) {
+    		return 0;
+    	}
+    	int maximum = vertex.get(0);
+    	for (int a = 1; a < vertex.size(); a++) {
+    		if (vertex.get(a) > maximum) {
+    			maximum = vertex.get(a);
+    		}
+    	}
+        return maximum;
+    }
+
+    @Override
+    public int edgeSize() {
+        // FIXME -- FIXED
+        return sucessors.size();
+    }
+
+    @Override
+    public abstract boolean isDirected();
+
+    @Override
+    public int outDegree(int v) {
+        // FIXME -- FIXED
+    	if (!contains(v)) {
+    		return 0;
+    	}
+    	int numOfOutDegree = 0;
+    	for (int i = 0; i < sucessors.size(); i++) {
+    		ArrayList<Integer> check = sucessors.get(i);
+    		if (check.get(0) == v) {
+    			numOfOutDegree++;
+    		}
+    	}
+    	
+        return numOfOutDegree;
+    }
+
+    @Override
+    public abstract int inDegree(int v);
+
+    @Override
+    public boolean contains(int u) {
+        // FIXME -- FIXED
+        return mine(u);
+    }
+
+    @Override
+    public boolean contains(int u, int v) {
+        // FIXME -- FIXED
+    	ArrayList<Integer> connection = new ArrayList<Integer>();
+    	connection.add(u);
+    	connection.add(v);
+        return sucessors.contains(connection);
+    }
+
+    @Override
+    public int add() {
+        // FIXME -- FIXED
+    	if (vertex.size() == 0) {
+    		vertex.add(1);
+    		return 1;
+    	} else if (vertex.get(0) != 1) {
+    		vertex.add(0, 1);
+    		return 1;
+    	} else {
+    		int[] places = findNextInsertNum();
+    		vertex.add(places[1], places[0]);
+    		return places[0];
+    	}
+    }
+    
+    /** A helper method created to use for 
+     *  the add() method
+     * @return items[]
+     */
+    private int[] findNextInsertNum() {
+    	int[] items = new int[2];
+    	for (int i = 0; i < vertex.size() - 1; i++) {
+    		int supposeNextNum = vertex.get(i) + 1;
+    		if (supposeNextNum != vertex.get(i + 1)) {
+    			items[0] = supposeNextNum;
+    			items[1] = i + 1;
+    			return items;
+    		}
+    	}
+    	
+    	items[0] = vertex.size() + 1;
+    	items[1] = vertex.size();
+    	return items;
+    }
+
+    @Override
+    public int add(int u, int v) {
+        // FIXME -- FIXED
+    	// The successor of U belongs in index 2
+    	// The person owning V belongs in index 1
+    	// Note num start at 1.
+    	ArrayList<Integer> connection = new ArrayList<Integer>();
+    	connection.add(u);
+    	connection.add(v);
+    	if (!mine(u) || !mine(v)) {
+    		throw new Error("Not possible -- one or both vertices do not nexist");
+    	} else if (!sucessors.contains(connection)) {
+    		sucessors.add(connection);
+    	}
+    	
+        return u;
+    }
+
+    @Override
+    public void remove(int v) {
+        // FIXME -- FIXED
+    	Integer n = v;
+    	vertex.remove(n);
+    	for (int i = 0; i < sucessors.size(); i++) {
+    		ArrayList<Integer> check = sucessors.get(i);
+    		if (check.contains(v)) {
+    			sucessors.remove(check);
+    			i--;
+    		}
+    	}
+    }
+
+    @Override
+    public void remove(int u, int v) {
+        // FIXME -- FIXED
+    	ArrayList<Integer> items = new ArrayList<Integer>();
+    	items.add(u);
+    	items.add(v);
+    	sucessors.remove(items);
+    }
+
+    @Override
+    public Iteration<Integer> vertices() {
+        // FIXME -- FIXED
+    	Iteration<Integer> v = new Iterate<Integer>(vertex.iterator());
+        return v;
+    }
+
+    @Override
+    public int successor(int v, int k) {
+        // FIXME -- FIXED
+    	if (!mine(v) || !hasSucessors(v)) {
+    		return 0;
+    	}
+    	for (int i = 0; i < sucessors.size(); i++) {
+    		ArrayList<Integer> check = sucessors.get(i);
+    		if (check.get(0) == v) {
+    			if (k == 0) {
+    				return check.get(1);
+    			} else {
+    				k--;
+    			}
+    		}
+    	}
+
+        return 0;
+    }
+    
+    /** This is a helper method for successor so that it
+     *  is easy to tell whether or not we should return 0
+     *  immediately.
+     * @param v
+     * @return boolean
+     */
+    private boolean hasSucessors(int v) {
+    	for (int i = 0; i < sucessors.size(); i++) {
+    		ArrayList<Integer> check = sucessors.get(i);
+    		if (check.get(0) == v) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+
+    @Override
+    public abstract int predecessor(int v, int k);
+
+    @Override
+    public Iteration<Integer> successors(int v) {
+    	// FIXME -- FIXED
+    	ArrayList<Integer> allSuccessors = new ArrayList<Integer>();
+    	for (int i = 0; i < sucessors.size(); i++) {
+    		ArrayList<Integer> current = sucessors.get(i);
+    		if (current.get(0) == v) {
+    			allSuccessors.add(current.get(1));
+    		}
+    	}
+    	
+    	Iteration<Integer> r = new Iterate<Integer>(allSuccessors.iterator());
+        return r;
+    }
+
+    @Override
+    public abstract Iteration<Integer> predecessors(int v);
+
+    @Override
+    public Iteration<int[]> edges() {
+        // FIXME
+        return null;
+    }
+
+    @Override
+    protected boolean mine(int v) {
+        // FIXME -- FIXED
+        return vertex.contains(v);
+    }
+
+    @Override
+    protected void checkMyVertex(int v) {
+        // FIXME
+    	if (!mine(v)) {
+    		throw new IllegalArgumentException();
+    	}
+    	
+    }
+
+    @Override
+    protected int edgeId(int u, int v) {
+        // FIXME
+    	ArrayList<Integer> check = new ArrayList<Integer>();
+    	check.add(u);
+    	check.add(v);
+    	if (!sucessors.contains(check)) {
+    		return 0;
+    	} else {
+    		return (u * u + v);
+    	}
+    }
+}

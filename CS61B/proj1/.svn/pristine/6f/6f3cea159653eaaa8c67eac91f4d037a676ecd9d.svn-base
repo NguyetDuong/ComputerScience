@@ -1,0 +1,5 @@
+load students;
+load enrolled;
+select SID, Firstname from students
+     where Lastname = 'Chan';
+quit;

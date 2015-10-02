@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec java -ea -cp $(dirname $0)/staff-game2048.jar:$CLASSPATH game2048.Main "$@"

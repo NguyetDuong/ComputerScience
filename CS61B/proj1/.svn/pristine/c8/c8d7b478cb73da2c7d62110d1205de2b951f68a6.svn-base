@@ -1,0 +1,5 @@
+select SID from students where SID ;
+select SID from students where SID = ;
+select SID from students where SID ;
+
+quit ;

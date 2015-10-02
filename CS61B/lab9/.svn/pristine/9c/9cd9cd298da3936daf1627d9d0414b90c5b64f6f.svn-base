@@ -1,0 +1,33 @@
+Answers to questions from lab.
+
+2. [Explain times for java HashTesting test1].
+It appears that the higher input it is, the longer the program takes to figure it out.
+This is what I input - this is the time:
+2 - 0.2s
+4 - 0.9s
+8 - 17.9s
+16 - 131.7s
+It's a little bit less than 2^n for run time. The reason for this might be because of for-loops or the fact that it has to keep track of their positions and skip. Whereas for the smalling ones, it's only a few you need to keep track of. Such as for one, you just need to input it into a hash. But if it's 2, you have to skip over, meaning you have to read the string and create a new string. If it's 3, you have to do the same thing but follow and keep track of how many "3"s you skip.
+
+
+3. [Explain times for java HashTesting test2 and test3].
+For test2, these are my inputs - these are the times:
+10 - 0.0s
+100 - 0.0s
+1000 - 0.8s
+3000 - 7.2s
+5000 - waited for 5 minutes and did not show up yet. 
+This one is better to create for lower numbers however it becomes extremely inefficient, seeing that after 1000 inputs, the program begins to lag and did not even pop up. This may be because of looking at both sides at once? I'm not super sure.
+
+For test3, these are my inputs - these are the times:
+10 - 0.0s
+100 - 0.6s
+200 - 10.0s
+250 - 28.1s
+This one takes a lot longer for smaller ones because it does different methods/multiplications onto the numbers being input. And as a result, it adds onto the time it runs. Therefore it runs a lot slower than test2. So this adds on top of the time for test2.
+
+
+4. [Why does HashSet fail to work in java HashTesting test4?]
+This is mainly because when you turn cases to certain items. Where if it's not correct cases for all of them, it does not return the correct things. The change I made was I inserted the actual string into it. 
+
+5. (Optional) Explain how ListTesting program demonstrates that LinkedLists are doubly linked.

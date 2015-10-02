@@ -1,0 +1,148 @@
+package graph;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+/** Unit tests for the Graph class.
+ *  @author Nguyet Duong
+ */
+public class TraversalTesting {
+    
+    public class DeFi extends BreadthFirstTraversal {
+
+    	private ArrayList<Integer> posVisit;
+    	
+		protected DeFi(Graph G) {
+			super(G);
+			posVisit = new ArrayList<Integer>();
+		}
+		
+		protected boolean visit(int v) {
+			posVisit.add(v);
+			return true;
+		}
+		
+		public ArrayList<Integer> givePos() {
+			return posVisit;
+		}
+    	
+    }
+    
+    public class Alpha extends DepthFirstTraversal {
+
+    	private ArrayList<Integer> posVisit;
+    	private ArrayList<Integer> afterVisit;
+    	
+		protected Alpha(Graph G) {
+			super(G);
+			posVisit = new ArrayList<Integer>();
+			afterVisit = new ArrayList<Integer>();
+		}
+		
+		protected boolean visit(int v) {
+			posVisit.add(v);
+			return true;
+		}
+		
+		protected boolean postVisit(int v) {
+			afterVisit.add(v);
+	        return true;
+	    }
+		
+		public ArrayList<Integer> givePos() {
+			return posVisit;
+		}
+		
+		public ArrayList<Integer> giveAfterPos() {
+			return afterVisit;
+		}
+    	
+    }
+    
+    @Test
+    public void breadthFirstTest() {
+    	DirectedGraph g = new DirectedGraph();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add(5, 4);
+    	g.add(5, 3);
+    	g.add(4, 1);
+    	g.add(3, 2);
+    	g.add(1, 5);
+    	DeFi x = new DeFi(g);
+    	List<Integer> a = Arrays.asList(5, 4, 3, 1, 2);
+    	List<Integer> b = Arrays.asList(5, 3, 4, 2, 1);
+    	List<Integer> c = Arrays.asList(5, 4, 3, 2, 1);
+    	List<Integer> d = Arrays.asList(5, 3, 4, 1, 2);
+    	x.traverse(5);
+    	
+    	assertTrue(x.givePos().equals(a) ||
+    			x.givePos().equals(b) ||
+    			x.givePos().equals(c) ||
+    			x.givePos().equals(d));
+    }
+    
+    @Test
+    public void depthFirstTest() {
+    	DirectedGraph g = new DirectedGraph();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add(5, 4);
+    	g.add(5, 3);
+    	g.add(4, 1);
+    	g.add(3, 2);
+    	g.add(1, 5);
+    	Alpha x = new Alpha(g);
+    	List<Integer> a = Arrays.asList(5, 4, 1, 3, 2);
+    	List<Integer> b = Arrays.asList(5, 3, 2, 4, 1);
+    	x.traverse(5);
+    	assertTrue(x.givePos().equals(a) || x.givePos().equals(b));
+    	List<Integer> c = Arrays.asList(2, 3, 1, 4, 5);
+    	List<Integer> d = Arrays.asList(1, 4, 2, 3, 5);
+    	assertTrue(x.giveAfterPos().equals(c) || x.giveAfterPos().equals(d));
+    }
+    
+    @Test
+    public void depthFirstTest2() {
+    	DirectedGraph g = new DirectedGraph();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add();
+    	g.add(1, 2);
+    	g.add(1, 3);
+    	g.add(1, 4);
+    	g.add(2, 5);
+    	g.add(2, 3);
+    	g.add(2, 6);
+    	g.add(3, 7);
+    	g.add(3, 8);
+    	g.add(8, 1);
+    	g.add(8, 9);
+    	g.add(8, 10);
+    	g.add(10, 7);
+    	Alpha x = new Alpha(g);
+    	List<Integer> a = Arrays.asList(3, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+    	for (Integer i : x.giveAfterPos()) {
+    		assertEquals(true, a.contains(i));
+    	}
+    	
+    }
+}

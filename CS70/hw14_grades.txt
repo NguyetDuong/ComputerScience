@@ -1,0 +1,9 @@
+#Problem 1: 5 [deviating] It's half and half. Some of it is correct, some of it isn't. Not sure exactly how to grade this.
+#Problem 2: 10 
+#Problem 3.a: 8 I think that's what I did pretty much. I may have messed up on the what number it should go up to. 
+#Problem 3.b: 10 
+#Problem 3.c: 8 Very similar argument. I think I messed up on the index a bit but overall it is correct. 
+#Problem 3.d: 0 
+#Problem 3.e: 0 
+#Problem 4.a: 10 
+#Problem 4.b: 10 

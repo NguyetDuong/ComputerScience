@@ -1,0 +1,147 @@
+
+%%% PAGE DIMENSIONS
+%\usepackage{geometry} % to change the page dimensions
+%\geometry{a4paper} % or letterpaper (US) or a5paper or....
+%\geometry{margin=2in} % for example, change the margins to 2 inches all round
+%\geometry{landscape} % set up the page for landscape
+
+%%% PACKAGES
+%\usepackage{graphicx} % support the \includegraphics command and options
+%\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{amsmath, amsfonts}
+%\usepackage{booktabs} % for much better looking tables
+%\usepackage{array} % for better arrays (eg matrices) in maths
+%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+%\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+%These packages are all incorporated in the memoir class to one degree or another...
+
+
+\iffalse
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape}
+
+
+\fi
+
+%%% The "real" document content comes below...
+
+
+\documentclass[12pt,fleqn]{article}
+\usepackage{latexsym,epsf,amssymb,amsmath,amsthm,graphicx}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\def\Homework{10}%Number of Homework
+\def\Session{Spring 2015}
+\def\Name{Nguyet Minh Duong} % Fill in your name here
+
+\markboth{}{CS70, \Session, HW \Homework, \Name}
+\pagestyle{myheadings}
+
+\title{CS 70, \Session\ --- Solutions to Homework \Homework}
+\date{April 7, 2015}
+
+\begin{document}
+\maketitle
+
+\section*{Due Monday April 6 at 12 noon}
+
+
+%%% EVERYTHING BELOW THIS WILL REMAIN THE SAME!!!
+
+\begin{enumerate}
+  \item \textbf{Card Game}
+  
+	For the player who sees 2. The total possibilities is 3, seeing there are only three cards with the value 2 on it. And only one card has a smaller value than 2 on the other side. Therefore the chances of this player losing is $\frac{1}{3}$. Therefore the probability of this player winning is $1 - \frac{1}{3} = \frac{2}{3}$.
+	
+	Similarly for the player who sees 3. The total possibilities of cards with the value 3 on it is 5. And there are 3 cards in which the value 3 is the less of the two values on the card. Therefore the probability of this player winning is $\frac{3}{5}$.
+    
+  
+  \newpage
+  \item \textbf{Poker Game}
+
+  \begin{enumerate}
+  	\item[1.] The known probability is that in the hand, there is at least one Ace. This is equivalent to 1 - Pr[zero Aces in hand]. The probability for Pr[zero Aces in hand] = $\frac{{48 \choose 5}}{{52 \choose 5}} = 0.6588$. The denominator counts all the possibilities of pulling out five cards, where order matter does not matter but repetition does. The numerator does the same thing but we take out the 4 Aces out, the reason why it is ${48 \choose 4}$. Essentially we want any cards NOT an Ace. This means in order for there to be at least one Ace, it is $1 - 0.6588 = 0.3411$. Call this statement B.
+  	
+  	Now the probability that we want is that there are at least two aces. So it will be the sum of Pr[2 Ace], Pr[3 Ace], and Pr[4 Ace]. We know that Pr[2 Ace] = $\frac{{4 \choose 2}{48 \choose 3}}{{52 \choose 5}} = 0.03992$. Numerator, the first choose 2 Ace out of 4, and then chooses the rest which are not Aces. Then divided by all the possibilities. We repeat this for the rest. So Pr[3 Ace] = $\frac{{4 \choose 3}{48 \choose 2}}{{52 \choose 5}} = 0.00173$. And Pr[4 Ace] = $\frac{{4 \choose 4}{48 \choose 1}}{{52 \choose 5}} = 0.0000184$. Hence, the probability of at least 2 is = 0.041668. Call this statement A. 
+  	
+  	Note that we are trying to find $Pr[A|B] = \frac{Pr[B|A]*Pr[A]}{Pr[B]} = \frac{1 * 0.041668}{0.3411} = 0.1222$. Therefore there is a 12.22\% that there will be at least two Aces given the known condition.
+  	
+  	\item[2.] Now, say that the card was a black Ace. Then our statement B needs to be changed. The number we got from above needs to be divided by ${4 choose 2}$ because we need to limit the numbers we get to having a black Ace within it. Therefore our new percentage will be 0.05685.
+  	
+  	Then using the equation from before. We can calculate the new probability of at least 2 Aces is 0.7329. Which is 73.29\%.
+  	
+  	\item[3.] Now, say the card was a Ace of Spade. Then our statement B needs to change to be more specific for this circumstance. Therefore we will need to divide it by ${2 choose 1}$ because now we need to choose the specific house within the two black houses that exists. Therefore, our new percentage will be 0.02842.
+  	
+  	We will repeat the same steps as the first part since it is just an equation. So our new probability of at least 2 Aces is 100/%. 
+  	
+  	\item[4.] From this example, we see that with the more knowledge we have, we can narrow down the possibilities even more. As a result, we can cut our possibilities and get better winning opportunities. 
+  \end{enumerate}
+  
+  
+  \newpage
+  \item \textbf{Boys and Girls}
+  
+  The probability that at least 2 are boys is the following: $\frac{{3 \choose 2} * \frac{1}{2} * \frac{1}{2}}{2} = \frac{1}{2}$. There is a 3 choose 2 because we want to calculate all the possible positions the boys may be in. Then we need to multiply in the possibility of picking a single boy at a time, twice. It is divided by two because we want to weed out the posibility that it is a female since the $\frac{1}{2}$ can represent the possibility of female OR male. Let this statement be B. 
+  
+  The independent property of all three children are boys is the following: $\frac{1}{2}^3 = \frac{1}{8}$. We want it all to be the same gender, male. Therefore we choose the same one for all three so we multiply it the same. Let this statement be A. 
+  
+  Then using the fact of what we know from the friend, we can calculate a new probability of all three children are boys. Therefore our probability is written as $Pr[A|B] = Pr[B|A] * \frac{Pr[A]}{Pr[B]} = 1 * \frac{\frac{1}{8}}{\frac{1}{2}} = \frac{1}{4}$. Therefore our new probability is $25\%$ that all three will be boys if we are known the fact that at least two are boys. 
+  
+  Now, after knowing that the two oldest children are males onto of all the information we know, we can make the conclusion that there is a $50\%$ chance that all three kids are males. The reason for this is because we need to revise statement B since it is no longer just the probablity that there is at least 2 males. Now we need to include in the fact that these the two males are the oldest. Now we need to revise this accordingly, meaning we need to take into consideration of order. Our chances of having the oldest being males will cause our statement B to be reduced by half because we need to take out the possibility of the one girl who may take positions as either first oldest or second oldest. Now our probability will be $\frac{1}{4}$ instead. Replugging this into our equation on paragraph 2, we get that it is $50\%$ which makes sense because with the first two already determined as boys, we eliminated the last position only. We don't have to take into consideration of position 1 or 2. Therefore given one spot, there's only a 50\% chance of it being a boy. 
+  
+  \newpage
+  \item \textbf{Lie Detector}
+  
+  First, we label all the circumstances. 
+  
+  A = Innocent, B = Guilty, C = Judged Guilty, D = Judged Innocent.  
+
+  Now, using this, we will realize that we want $Pr[A | C]$. We also know from our given that $Pr[C|A]$. Using the equation given from Bayes' Rule, it is possible for us to find $Pr[A|C]$ using the following equation:
+  
+  $Pr[A|C] = \frac{Pr[A]Pr[C|A]}{Pr[A]Pr[D|A] + Pr[B]Pr[C | B]}  $
+  
+  From the given, we know all of the percentage/probability on the right hand side. So we now just plug in all the probility to caculate.
+  
+  $Pr[A|C] = \frac{0.99*0.05}{0.99*0.95 + .01*0.8} = 0.052187$
+  
+  Therefore the chances of this happening is 5.219\%
+  \newpage
+  \item \textbf{Cliques in random graphs}
+  
+  \begin{enumerate}
+    \item 
+	$(\frac{n}{2})^2$
+    
+    \item 
+    YOUR ANSWER HERE
+    
+    \item 
+    YOUR ANSWER HERE
+      
+  \end{enumerate}
+  
+  
+  \newpage
+  \item \textbf{Midterm 2}
+ 
+ \begin{itemize}
+ \item[4a.] $r_4 = 7$ because we see that this and the error given in the problem gives us matching first-degree polynomials if we connect it to the correct values. And as a result, given two of these, it dominates the graph and we would be under the assumption that this is the correct polynomial values. Therefore when we attempt to find the solutions, it would not be correct.
+ 
+ \item[4b.] We need at least 4 points for protection against 2 errors because he must be able to reconstruct multiple linear lines. And as he does so, he must be able to figure out what the error graph is with the 2 error points. We see that if we take into consideration of the 2 additional errors, we can create a new degree polyonimal. And then we can factor it out as we see values not fitting the possible linear graph. 
+ \end{itemize}
+  
+  
+  
+  \newpage
+  \item \textbf{Extra credit}
+  
+  YOUR ANSWER HERE
+
+
+\end{enumerate}
+
+\end{document}

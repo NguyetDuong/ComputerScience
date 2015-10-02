@@ -1,0 +1,346 @@
+package graph;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
+/* See restrictions in Graph.java. */
+
+/** A partial implementation of Graph containing elements common to
+ *  directed and undirected graphs.
+ *
+ *  @author Nguyet Duong
+ */
+abstract class GraphObj extends Graph {
+
+    /** A new, empty Graph. */
+    GraphObj() {
+        // FIXME -- FIXED
+        successors = new HashMap<Integer, ArrayList<Integer>>();
+        predecessors = new HashMap<Integer, ArrayList<Integer>>();
+        undirectedHelp = new HashMap<Integer, ArrayList<Integer>>();
+        if (!isDirected()) {
+        	getUndirectedSize = 0;
+        }
+    }
+
+    @Override
+    public int vertexSize() {
+        // FIXME -- FIXED
+        return successors.size();
+    }
+
+    @Override
+    public int maxVertex() {
+        // FIXME -- FIXED
+        int max = 0;
+        Set<Integer> keys = successors.keySet();
+        Iterator<Integer> k = keys.iterator();
+        while (k.hasNext()) {
+            int check = k.next();
+            if (check > max) {
+                max = check;
+            }
+        }
+
+        return max;
+    }
+
+    @Override
+    public int edgeSize() {
+    	/* EdgeSize Problem:
+    	 * When it is undirected, we add it in twice. Therefore giving DOUBLE
+    	 * the amount inside. However, at the same time, we need to know the right
+    	 * amount that's added in?
+    	 */
+    	if (!isDirected()) {
+    		int num = 0;
+            Set<Integer> keys = undirectedHelp.keySet();
+            Iterator<Integer> k = keys.iterator();
+            while (k.hasNext()) {
+                num += undirectedHelp.get(k.next()).size();
+            }
+            return num;
+        }
+        int num = 0;
+        Set<Integer> keys = successors.keySet();
+        Iterator<Integer> k = keys.iterator();
+        while (k.hasNext()) {
+            num += successors.get(k.next()).size();
+        }
+        
+        return num;
+    }
+
+    @Override
+    public abstract boolean isDirected();
+
+    @Override
+    public int outDegree(int v) {
+        // FIXME
+        if (!successors.containsKey((Integer) v)) {
+            return 0;
+        }
+        return successors.get((Integer) v).size();
+    }
+
+    @Override
+    public abstract int inDegree(int v);
+
+    @Override
+    public boolean contains(int u) {
+        // FIXME -- FIXED
+        return successors.containsKey((Integer) u);
+    }
+
+    @Override
+    public boolean contains(int u, int v) {
+        // FIXME
+        if (successors.containsKey((Integer) u)) {
+            return successors.get((Integer) u).contains(v);
+        } else {
+            return false;
+        }
+        
+    }
+
+    @Override
+    public int add() {
+        // FIXME -- FIXED
+        if (successors.size() == 0) {
+            successors.put(1, new ArrayList<Integer>());
+            predecessors.put(1, new ArrayList<Integer>());
+            undirectedHelp.put(1, new ArrayList<Integer>());
+            return 1;
+        } else {
+            int addIn = 1;
+            while (true) {
+                if (!successors.containsKey((Integer) addIn)) {
+                    successors.put(addIn, new ArrayList<Integer>());
+                    predecessors.put(addIn, new ArrayList<Integer>());
+                    undirectedHelp.put(addIn, new ArrayList<Integer>());
+                    break;
+                } else {
+                    addIn++;
+                }
+            }
+            return addIn;
+        }
+        
+    }
+
+    @Override
+    public int add(int u, int v) {
+        // FIXME -- FIXED
+    	
+        if (isDirected()) {
+            if (!contains(u, v)) {
+                successors.get((Integer) u).add(v);
+                predecessors.get((Integer) v).add(u);
+            }
+        } else {
+        	if (u == v) {
+        		//getUndirectedSize++;
+        		successors.get((Integer) u).add(v);
+        		predecessors.get((Integer) v).add(u);
+        		undirectedHelp.get((Integer) u).add(v);
+        	} else if (!contains(u, v)) {
+        		//getUndirectedSize++;
+        		successors.get((Integer) u).add(v);
+        		predecessors.get((Integer) v).add(u);
+        		if (u < v) {
+        			undirectedHelp.get((Integer) u).add(v);
+        		} else {
+        			undirectedHelp.get((Integer) v).add(u);
+        		}
+        		
+        		if (!contains(v, u)) {
+                	successors.get((Integer) v).add(u);
+                    predecessors.get((Integer) u).add(v);
+                }
+        	}
+        }
+        
+        return u;
+    }
+
+    @Override
+    public void remove(int v) {
+        // FIXME -- FIXED
+    	
+		/*successors.remove((Integer) v);
+        Set<Integer> keys = successors.keySet();
+        Iterator<Integer> k = keys.iterator();
+        while (k.hasNext()) {
+            int item = k.next();
+            if (successors.get((Integer) item).contains(v)) {
+                ArrayList<Integer> vals = successors.get((Integer) item);
+                vals.remove((Integer) v);
+                successors.put((Integer) item, vals);
+            }
+        }
+        predecessors.remove((Integer) v);
+        Set<Integer> pKeys = predecessors.keySet();
+        Iterator<Integer> pk = pKeys.iterator();
+        while (pk.hasNext()) {
+            int item = pk.next();
+            if (predecessors.get((Integer) item).contains(v)) {
+                ArrayList<Integer> vals = predecessors.get((Integer) item);
+                vals.remove((Integer) v);
+                predecessors.put((Integer) item, vals);
+                
+            }
+        }*/
+    	
+    	successors.remove((Integer) v);
+    	predecessors.remove((Integer) v);
+    	for (Integer key : successors.keySet()) {
+    		if (successors.get(key).contains(v)) {
+    			successors.get(key).remove((Integer) v);
+    		}
+    		if (predecessors.get(key).contains(v)) {
+    			predecessors.get(key).remove((Integer) v);
+    		}
+    	}
+        
+        if (!isDirected()) {
+        	undirectedHelp.remove((Integer) v);
+        	Iterator<Integer> cc = undirectedHelp.keySet().iterator();
+        	while (cc.hasNext()) {
+        		int item = cc.next();
+        		undirectedHelp.get((Integer) item).remove((Integer) v);
+        	}
+        }
+    	
+
+    }
+
+    @Override
+    public void remove(int u, int v) {
+        // FIXME -- FIXED
+        if (successors.containsKey((Integer) u)) {
+            ArrayList<Integer> vals = successors.get((Integer) u);
+            vals.remove((Integer) v);
+            successors.put(u, vals);
+            if (predecessors.containsKey(v)) {
+            	ArrayList<Integer> pVals = predecessors.get((Integer) v);
+                pVals.remove((Integer) u);
+                predecessors.put(v, pVals);
+            }
+        }
+    }
+
+    @Override
+    public Iteration<Integer> vertices() {
+        // FIXME -- FIXED
+        return new Iterate<Integer>(successors.keySet().iterator());
+    }
+
+    @Override
+    public int successor(int v, int k) {
+        // FIXME
+        if (successors.containsKey((Integer) v) && k < successors.get(v).size()) {
+            return successors.get((Integer) v).get(k);
+        } 
+        return 0;
+    }
+
+    @Override
+    public abstract int predecessor(int v, int k);
+
+    @Override
+    public Iteration<Integer> successors(int v) {
+        // FIXME -- FIXED
+    	if (!successors.containsKey(v)) {
+    		return new Iterate<Integer>(new ArrayList<Integer>().iterator());
+    	}
+        return new Iterate<Integer>(successors.get((Integer) v).iterator());
+    }
+
+    @Override
+    public abstract Iteration<Integer> predecessors(int v);
+
+    @Override
+    public Iteration<int[]> edges() {
+        // FIXME
+        ArrayList<int[]> e = new ArrayList<int[]>();
+        if (isDirected()) {
+            Set<Integer> pKeys = predecessors.keySet();
+            Iterator<Integer> pk = pKeys.iterator();
+            while (pk.hasNext()) {
+                int item = pk.next();
+                for (int i = 0; i < successors.get((Integer) item).size(); i++) {
+                    int[] inp = new int[2];
+                    inp[1] = successors.get((Integer) item).get(i);
+                    inp[0] = item;
+                    e.add(inp);
+                }
+            }
+        } else {
+            Set<Integer> keys = successors.keySet();
+            Iterator<Integer> k = keys.iterator();
+            while (k.hasNext()) {
+            	int key = k.next();
+            	for (int i = 0; i < successors.get(key).size(); i++) {
+            		if (contains(key, successors.get(key).get(i)) &&
+            				contains(successors.get(key).get(i)) &&
+            				key <= successors.get(key).get(i)) {
+            			int[] x = new int[] {key, successors.get(key).get(i)};
+            			e.add(x);
+            		}
+            	}
+            }
+            
+        }
+        return new Iterate<int[]>(e.iterator());
+    }
+
+    @Override
+    protected boolean mine(int v) {
+        // FIXME -- FIXED
+        return successors.containsKey((Integer) v);
+    }
+
+    @Override
+    protected void checkMyVertex(int v) {
+        // FIXME -- FIXED
+        if (!contains(v)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    protected int edgeId(int u, int v) {
+        // FIXME -- FIXED
+        if (successors.containsKey((Integer) u) &&
+        		successors.get((Integer) u).contains((Integer) v) &&
+        		isDirected()) {
+            return (4 * u) + (3 * v);
+        } else if (successors.containsKey((Integer) u) &&
+        		successors.get((Integer) u).contains((Integer) v) &&
+        		!isDirected()) {
+        	if (v > u) {
+        		return (4 * v) + (3 * u);
+        		(u + v) * (u + v +1) / 2 + v
+        	} else {
+        		return (4 * u) + (3 * v);
+        	}
+        }else {
+            return 0;
+        }
+    }
+
+    public HashMap<Integer, ArrayList<Integer>> getSuccessors() {
+    	return successors;
+    }
+    
+    public HashMap<Integer, ArrayList<Integer>> getPredecessors() {
+    	return predecessors;
+    }
+    
+    // FIXME
+    private int getUndirectedSize;
+    private HashMap<Integer, ArrayList<Integer>> successors;
+    private HashMap<Integer, ArrayList<Integer>> predecessors;
+    private HashMap<Integer, ArrayList<Integer>> undirectedHelp;
+}

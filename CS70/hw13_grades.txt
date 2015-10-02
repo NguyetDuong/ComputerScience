@@ -1,0 +1,20 @@
+#Problem 1.a: 8 Explanation does not use the coin flipping but rather the actual definition given?
+#Problem 1.b: 10 
+#Problem 1.c: 8 Explanation does not use the coin flipping but explains how it is poisson?
+#Problem 1.d: 8 Explanation lacks some certain key points, such as the central limit theorem
+#Problem 1.e: 8 Explanation does not actual explain it but rather uses a reference from the notes. 
+#Problem 1.f: 8 Did not use the coin flip explanation for this however did use the example/definition from notes. 
+#Problem 1.g: 10 
+#Problem 1.h: 10 
+#Problem 1.i: 8 Bare minimal explanation on how it is a poisson using the notes. 
+#Problem 1.j: 8 Explanation doesn't necessarily match each other at all. 
+#Problem 2.a: 0 
+#Problem 2.b: 0 
+#Problem 3.a: 0 
+#Problem 3.b: 0 
+#Problem 4: 0 
+#Problem 5.a: 5 Did not really prove how it comes to be. Used the notes online to prove this
+#Problem 5.b: 8 Got the correct values but forgot to include the mean. 
+#Problem 6.a: 0 
+#Problem 6.b: 0 
+#Problem 7: 0 

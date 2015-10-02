@@ -1,0 +1,21 @@
+#Problem 1.a: 8 Missed the very last part for this question. I forgot to take into consideration for the edge case of when x = 0.
+#Problem 1.b: 10 
+#Problem 1.c: 10 
+#Problem 2.a: 10 
+#Problem 2.b: 5 I did not manage to answer whether or not the negated preposition was right.
+#Problem 2.c: 10 
+#Problem 2.d: 10 
+#Problem 2.e: 8 I did not see the possibility of the edge case 0. Therefore the negated preposition was wrong.
+#Problem 3.a: 10 
+#Problem 3.b: 10 
+#Problem 3.c: 0 E.C. Did not do
+#Problem 4.a: 10 
+#Problem 4.b: 10 
+#Problem 5: 10 
+#Problem 6.a: 8 I did not put the forall or exists around the whole phrase.
+#Problem 6.b: 8 I did not put the forall or exists around the whole phrase.
+#Problem 6.c: 8 I did not put the forall or exists around the whole phrase.
+#Problem 6.d: 10 
+#Problem 7.a: 10 
+#Problem 7.b: 0 extra credit. Did not do
+#Problem 8: 0 extra credit. Did not do

@@ -1,0 +1,16 @@
+# This checks that the set command works as it should be
+# where if we input
+# set r c n color
+# it will set the numberColor in the particilar coordinate
+
+staff-jump61
+None
+===#1===
+size 4
+set 1 1 2 R
+set 3 2 2 r
+set 4 4 2 b
+set 1 2 2 B
+set 2 4 2 b
+dump
+quit

@@ -1,0 +1,127 @@
+
+%%% PAGE DIMENSIONS
+%\usepackage{geometry} % to change the page dimensions
+%\geometry{a4paper} % or letterpaper (US) or a5paper or....
+%\geometry{margin=2in} % for example, change the margins to 2 inches all round
+%\geometry{landscape} % set up the page for landscape
+
+%%% PACKAGES
+%\usepackage{graphicx} % support the \includegraphics command and options
+%\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{amsmath, amsfonts}
+%\usepackage{booktabs} % for much better looking tables
+%\usepackage{array} % for better arrays (eg matrices) in maths
+%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+%\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+%These packages are all incorporated in the memoir class to one degree or another...
+
+
+\iffalse
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape}
+
+
+\fi
+
+%%% The "real" document content comes below...
+
+
+\documentclass[12pt,fleqn]{article}
+\usepackage{latexsym,epsf,amssymb,amsmath,amsthm,graphicx}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\def\Homework{13}%Number of Homework
+\def\Session{Spring 2015}
+\def\Name{Nguyet Minh Duong} % Fill in your name here
+
+\markboth{}{CS70, \Session, HW \Homework, \Name}
+\pagestyle{myheadings}
+
+\title{CS 70, \Session\ --- Solutions to Homework \Homework}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Due Monday April 27 at 12 noon}
+
+
+%%% EVERYTHING BELOW THIS WILL REMAIN THE SAME!!!
+
+\begin{enumerate}
+  \item \textbf{Distribution}
+  
+    \begin{enumerate}
+      \item 
+		Poisson distribution because we are recording values over a specific period. In this case, we are recording the number of errors over each n-amount of characters. 
+	  \item 
+	  	Exponential distribution because we are recording the amount of time before something happens. In this case, we are recording how long it takes for a fly to come through a window. There is no specific time before this happens, therefore the longer we wait, there should be a higher chance for a fly to come through our window simply through probability. 
+	  \item
+	  	Poisson distribution because we are recording values over a specific period of time. Similar to the example given in the notes, we see that we are recording the numbers of stars over a period of time (which is a night). There should be one single peek when there are the most stars in the sky -- this gives us the property of a poisson distribution.
+	  \item
+	  	Normal distribution because we are talking about an average, in this case about heights. With the heights, we can have a mean (literal average) and the standard deviation between each. In addition, it records from a variety of variables.
+	  \item 
+	  	Uniform distribution because we are dealing with intervals and subsets within circumference; this is using in relation to the notes. 
+	  \item 
+	  	Poisson distribution because we are attempting to record a number over a specific controlled value. In our case, we are recording the number of trees per 100-square-foot. 
+	  \item 
+	  	Geometric distribution because we are loading the server through a specific amount of clicks. Therefore it cannot happen at any instances, instead we can pick a specific point in time (ex. 8 clicks) for when the website loads. 
+	  \item 
+	  	Normal distribution because this is an average, in which we take values from scattered random variables. As a result, there will be a mean and a stand divation
+      \item 
+      	Poisson distribution because we are trying to see how many times something is used or accessed over the a specific period.  
+      \item 
+      	Exponential distribution because we are recording it by time. Since for time, it can happen at any instances, it cannot be recorded directly. And the telephone will always have more chances of calling over time.
+    \end{enumerate}
+    
+  
+  \newpage
+  \item \textbf{Poisson}
+	\begin{enumerate}
+		\item
+			
+		\item
+	\end{enumerate}
+	
+  \newpage
+  \item \textbf{Proof or Counterexample}
+  	\begin{enumerate}
+  		\item This is true because of the following:
+  		
+  			$\int_0^{\infty}Pr[X \geq t]dt = Pr[X \geq 1] + Pr[X \geq 2] + Pr[X \geq 3] + ...$  			
+  			$ = \sum_{t=0}^{\infty}Pr[X \geq t]$
+  			
+  			And since this is in the notes for 19.1, we can say that this is possible to calculate given the instances within this problem. 
+  		\item 
+  	\end{enumerate}
+  	
+  	
+  \newpage
+  \item \textbf{Exponential Distribution is Memoryless}
+  
+  \newpage
+  \item \textbf{Exponential}
+  \begin{enumerate}
+  	\item From our givens, we know that $Pr[Z \geq t] = e^{\frac{-t}{\mu}}$. Therefore, $Pr[ X \geq t] = e^{\frac{-t}{100}}$ and $Pr[ X \geq t] = e^{\frac{-t}{50}}$
+  	\item Note in this case, we want $Z \geq t$. And in order for this to happen, $X \geq t$ and $Y \ geq$. We can calculate the probability easily from this since we know that both X and Y are independent from each other. Therefore we only need to multiply their probability against each other to get Z.
+  	
+	\begin{equation} \label{eq1}
+\begin{split}
+Pr[Z \geq t] & = Pr[X \geq t] * Pr[Y \geq t] \\
+ & = e^{\frac{-t}{100}} * e^{\frac{-t}{50}} \\
+ & = e^{\frac{-t}{100}} * e^{\frac{-2t}{100}} \\
+ &= e^{\frac{-3t}{100}} 
+\end{split}
+\end{equation}
+
+	Therefore, we see that Z is an exponential. 
+  \end{enumerate}
+  
+
+\end{enumerate}
+
+\end{document}

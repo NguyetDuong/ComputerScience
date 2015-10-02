@@ -1,0 +1,76 @@
+// This is a SUGGESTED skeleton for a class that describes a single
+// Condition (such as CCN = '99776').  You can throw this away if you
+// want,  but it is a good idea to try to understand it first.
+// Our solution changes or adds about 30 lines in this skeleton.
+
+// Comments that start with "//" are intended to be removed from your
+// solutions.
+package db61b;
+
+import java.util.List;
+import java.util.ArrayList;
+
+/** Represents a single 'where' condition in a 'select' command.
+ *  @author Nguyet Duong */
+class Condition {
+
+    /** A Condition will take in a ArrayList of Strings that
+     *  contains up to the word 'and'. The ArrayList should 
+     *  only have 3 items inside of it. A column we're looking
+     *  at, the conditional statement, and the item we're 
+     *  comparing it to. */
+    Condition(ArrayList<String> conditions) {
+        columnNotice = conditions.get(0);
+        conditional = conditions.get(1);
+        String a = conditions.get(2);
+        if (a.contains("'")) {
+            hasQ = true;
+        } else {
+            hasQ = false;
+        }
+        comparison = a.substring(1, conditions.get(2).length() - 1).trim();
+    }
+
+
+    Boolean getConditionalRow(Row change, Row columnsNames) {
+        //System.out.println("This is what we're noticing: " + columnNotice);
+        String identity = "";
+
+        for (int i = 0; i < columnsNames.size(); i++) {
+            Boolean a = columnNotice.equals(columnsNames.get(i));
+            //System.out.println("I am trying to get: " + columnNotice + ", this is what we have: " + columnsNames.get(i));
+            if (columnNotice.equals(columnsNames.get(i))) {
+                identity = change.get(i);
+                break;
+            }
+        }
+        return conditionalHelper(identity);
+    }
+
+    Boolean conditionalHelper(String i) {
+        //System.out.println("This is what is getting put in to check if it's equal: " + i);
+        if (!hasQ) {
+            return true; 
+        } else if (conditional.equals("=")) {
+            return (comparison.compareTo(i) == 0);
+        } else if (conditional.equals(">=")) {
+            return (comparison.compareTo(i) >= 0);
+        } else if (conditional.equals(">")) { 
+            return (comparison.compareTo(i) > 0);
+        } else if (conditional.equals("<=")) {
+            return (comparison.compareTo(i) <= 0);
+        } else if (conditional.equals("<")) {
+            return (comparison.compareTo(i) < 0);
+        } else {
+            return false;
+        }
+    }
+
+    /** These save all of the parts we need to keep track of */
+    private String columnNotice;
+    private String conditional;
+    private String comparison;
+    private Boolean hasQ;
+    
+    // ADD ADDITIONAL FIELDS HERE
+}

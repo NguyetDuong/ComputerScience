@@ -1,0 +1,37 @@
+Results for InsertRandomSpeedTest for N = 1000000:
+BSTStringSet - Took: 1.96 sec.
+ECHashStringSet - Took: 1.29 sec.
+java.util.TreeSet - Took: 1.20 sec.
+java.util.HashSet - Took: 0.89 sec.
+
+
+Results for InsertRandomSpeedTest for N = 2000000:
+BSTStringSet - Took: 4.11 sec.
+ECHashStringSet - Took: 2.34 sec.
+java.util.TreeSet - Took: 3.05 sec.
+java.util.HashSet - Took: 1.78 sec.
+
+
+Does your ECHashStringSet look roughly linear or roughly quadratic in its scaling behavior for random strings?
+It seems to be pretty linear as when the amount doubles, so does the time. 
+
+
+Results for InsertInOrderSpeedTest for N = 10000:
+BSTStringSet - Took: 1.18 sec.
+ECHashStringSet - Took: 0.04 sec.
+java.util.TreeSet - Took: 0.03 sec.
+java.util.HashSet - Took: 0.02 sec.
+
+
+Results for InsertInOrderSpeedTest for N = 20000:
+BSTStringSet - Took: 3.51 sec.
+ECHashStringSet - Took: 0.05 sec.
+java.util.TreeSet - Took: 0.02 sec.
+java.util.HashSet - Took: 0.02 sec.
+
+
+Does your **BST**StringSet look roughly linear or roughly quadratic in its scaling behavior for in order strings? 
+It appears that it is roughly less than linear. Seeing that when the numbers, doubled, tripled, the time it takes barely goes up where as if it is quadratic, it would definitely be a huge difference. 
+
+Before submitting, make sure that your ECHashStringSet is capable of handling inputs of size 1000000 in a reasonable amount of time (less than a minute).
+

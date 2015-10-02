@@ -1,0 +1,20 @@
+Answers to questions from lab.
+
+2. [Explain times for java HashTesting test1].
+It appears that the higher input it is, the longer the program takes to figure it out.
+This is what I input - this is the time:
+2 - 0.2s
+4 - 0.9s
+8 - 17.9s
+16 - 131.7s
+It's a little bit less than 2^n for run time. The reason for this might be because of for-loops or the fact that it has to keep track of their positions and skip. Whereas for the smalling ones, it's only a few you need to keep track of. Such as for one, you just need to input it into a hash. But if it's 2, you have to skip over, meaning you have to read the string and create a new string. If it's 3, you have to do the same thing but follow and keep track of how many "3"s you skip.
+
+
+3. [Explain times for java HashTesting test2 and test3].
+
+
+
+4. [Why does HashSet fail to work in java HashTesting test4?]
+
+
+5. (Optional) Explain how ListTesting program demonstrates that LinkedLists are doubly linked.

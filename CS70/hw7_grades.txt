@@ -1,0 +1,14 @@
+#Problem 1: 10 
+#Problem 2: 8 [deviating] It's very similar but I'm not sure if I used the chinese remainder theorem correctly.
+#Problem 3: 10 
+#Problem 4: 8 I don't think I explained it correctly.
+#Problem 5: 8 [deviating] Very similar. 
+#Problem 6.a: 10 
+#Problem 6.b: 8 Probably did not explain correctly.
+#Problem 6.c: 5 Did not seem similar at all.
+#Problem 6.d: 5 I think I got the basic idea but not all of it
+#Problem 6.e: 2 Failed to really prove it.
+#Problem 6.f: 0 
+#Problem 7.a: 0 
+#Problem 7.b: 0 
+#Problem 7.c: 0 

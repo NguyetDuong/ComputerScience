@@ -1,0 +1,12 @@
+1. BigO = O(N^2); BigOmega = Omega(N^2) 
+2. BigO = O(2logN); BigOmega = O(2logN)
+3. BigO = O(N!); BigOmega = O(N!)
+4. BigO = O(M+N); BigOmega = Omega(1)
+5. BigO = O(NlogN); BigOmega = Omega(NLogN) -- for this specific one, it was quite hard to figure it out. I first figured out f(1), which by itself should be O(N). However, it is obvious within method f5(int n) that it gets called twice as much because of the two f5(n/2) calls. As for figuring out the part for calling f5's, I made a the following chart:
+when n is 2 = 2
+when n is 4 = 6
+when n is 8 = 14
+
+I can see that it's not exactly 2N, but it is not N. So it's somewhere between -- the only one else would fit will be NlogN. As a result, as it goes to infinity, NlogN would overpower 2N, therefore it's just NlogN.
+
+

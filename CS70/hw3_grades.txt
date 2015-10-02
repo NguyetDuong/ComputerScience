@@ -1,0 +1,18 @@
+#Problem 1: 8 [deviating] I think I answered it correctly in my proof but it is very different in terms of logic. I did not use the fact that if there exists a celebrity in the original group, it's automatic. 
+#Problem 2.a: 10 
+#Problem 2.b: 10 
+#Problem 2.c: 10 
+#Problem 2.d: 10 
+#Problem 2.e: 10 
+#Problem 3.a: 10 
+#Problem 3.b: 2 [deviating] I'm not sure if I'm proving what it is asking to correctly or I am not understanding the proof that is written in the solution. I am proving that n(n-1) + 1 works but I don't think it was the case.
+#Problem 3.c: 0 EC. Pls. 
+#Problem 4: 8 [deviating] The way I attempted to prove it was very different and I'm not sure if it's completely correct. I feel like I had the right idea? I did not explicitly state some of the things presented in the solutions, such as how women will choose the ones they prefer over. Instead I say it will end up repeating the original algorithm.
+#Problem 5.a: 0 lol. Didn't do it. RIP
+#Problem 5.b: 0 lol. Didn't do it. RIP
+#Problem 5.c: 0 lol. Didn't do it. RIP
+#Problem 5.d: 0 lol. Didn't do it. RIP
+#Problem 5.e: 0 It's EC. Pls
+#Problem 6: 0 lol. Didn't do it. RIP
+#Problem 7: 0 lol. Didn't do it. RIP
+#Problem 8: 0 lol. Didn't do it. RIP

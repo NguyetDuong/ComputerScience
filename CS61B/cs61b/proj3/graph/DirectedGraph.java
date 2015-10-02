@@ -1,0 +1,55 @@
+package graph;
+
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.Iterator;
+
+/* See restrictions in Graph.java. */
+
+/** Represents a general unlabeled directed graph whose vertices are denoted by
+ *  positive integers. Graphs may have self edges.
+ *
+ *  @author Nguyet Duong
+ */
+public class DirectedGraph extends GraphObj {
+
+    @Override
+    public boolean isDirected() {
+        return true;
+    }
+
+    @Override
+    public int inDegree(int v) {
+        if (!contains(v)) {
+            return 0;
+        } else {
+            int numIn = 0;
+            Set<Integer> setKeys = getSuccessors().keySet();
+            Iterator<Integer> keys = setKeys.iterator();
+            while (keys.hasNext()) {
+                int key = keys.next();
+                if (getSuccessors().get(key).contains((Integer) v)) {
+                    numIn++;
+                }
+            }
+            return numIn;
+        }
+    }
+
+    @Override
+    public int predecessor(int v, int k) {
+        if (contains(v) && k < getPredecessors().get(v).size()) {
+            return getPredecessors().get(v).get(k);
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public Iteration<Integer> predecessors(int v) {
+        if (!getPredecessors().containsKey(v)) {
+            return new Iterate<Integer>(new ArrayList<Integer>().iterator());
+        }
+        return new Iterate<Integer>(getPredecessors().get(v).iterator());
+    }
+}

@@ -1,0 +1,28 @@
+#Problem 1.a: 0 I did it completely wrong
+#Problem 1.b: 10 
+#Problem 1.c: 8 I forgot to take into consideration of the repeated terms.
+#Problem 1.d: 8 [deviating] Too complex, thought of too many situations
+#Problem 1.e: 10 
+#Problem 1.f: 5 [deviating] I have a bad understanding of how selections work.
+#Problem 1.g: 0 Did not understand problem
+#Problem 1.h: 0 Did not understand problem
+#Problem 1.i: 10 [deviating] 
+#Problem 1.j: 5 [deviating] Not completely sure how I explained it.... But it seems somewhat correct but did not use CRT
+#Problem 2: 5 [deviating] Did not give combinational proof...
+#Problem 3.a: 10 
+#Problem 3.b: 10 
+#Problem 3.c: 10 
+#Problem 3.d: 10 
+#Problem 3.e: 8 Missed an outcome. 
+#Problem 3.f: 10 
+#Problem 3.g: 8 Missed the |D| but because I missed that in the first place
+#Problem 3.h: 10 
+#Problem 4.a: 10 
+#Problem 4.b: 0 Did not calculate it right at all
+#Problem 4.c: 10 
+#Problem 5.a: 10 
+#Problem 5.b: 10 
+#Problem 5.c: 10 
+#Problem 5.d: 0 Was wrong, don't really understand this part
+#Problem 6: 10 
+#Problem 7: 0 

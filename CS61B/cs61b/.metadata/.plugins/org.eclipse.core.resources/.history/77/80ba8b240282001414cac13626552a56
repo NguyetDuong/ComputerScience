@@ -1,0 +1,127 @@
+package graph;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+/** Unit tests for the Graph class.
+ *  @author Nguyet Duong
+ */
+public class PathsTesting {
+
+    public class SSP extends SimpleShortestPaths {
+
+        public SSP(LabeledGraph<Integer, Double> G, int source, int dest) {
+            super(G, source, dest);
+            _g = G;
+            didVisit = new HashMap<Integer, Integer>();
+        }
+
+        @Override
+        protected double getWeight(int u, int v) {
+            if (!_g.contains(v) || !_g.contains(u) || !_g.contains(u, v)) {
+                return Integer.MAX_VALUE;
+            }
+            return _g.getLabel(u, v);
+        }
+
+        @Override
+        protected double estimatedDistance(int v) {
+            if (getPredecessor(v) == 0) {
+                return 0.0;
+            }
+            int x = getPredecessor(v);
+            didVisit.put(v, (int) getWeight(x, v));
+            gotVisit = true;
+            return didVisit.get(v);
+        }
+
+        protected boolean hasBeenVisited(int v) {
+            return didVisit.containsKey(v);
+        }
+
+        private LabeledGraph<Integer, Double> _g;
+        private HashMap<Integer, Integer> didVisit;
+        Boolean gotVisit = false;
+
+    }
+
+    @Test
+    public void simpleShortest() {
+        DirectedGraph g = new DirectedGraph();
+        LabeledGraph<Integer, Double> stickers = 
+        		new LabeledGraph<Integer, Double>(g);
+        SSP turn = new SSP(stickers, 4, 3);
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add(4, 5);
+        stickers.add(4, 2);
+        stickers.add(4, 3);
+        stickers.add(2, 3);
+        stickers.add(5, 3);
+        stickers.add(5, 6);
+        stickers.setLabel(4, 3, 102.0);
+        stickers.setLabel(4, 2, 12.2);
+        stickers.setLabel(2, 3, 4.0);
+        stickers.setLabel(4, 5, 11.2);
+        assertEquals(true, turn.getWeight(4, 3) == 102.0);
+        assertEquals(true, turn.getWeight(2, 3) == 4.0);
+        assertEquals(false, turn.getWeight(5, 4) == 4.0);
+        turn.setPredecessor(4, 2);
+        turn.setPredecessor(2, 3);
+        assertEquals(3, turn.getPredecessor(2));
+        assertEquals(2, turn.getPredecessor(4));
+
+    }
+
+    @Test
+    public void shortestPathTest() {
+        DirectedGraph g = new DirectedGraph();
+        LabeledGraph<Integer, Double> stickers = new LabeledGraph<Integer, Double>(
+                g);
+        SSP turn = new SSP(stickers, 1, 6);
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add();
+        stickers.add(1, 2);
+        stickers.setLabel(1, 2, 6.0);
+        stickers.add(1, 3);
+        stickers.setLabel(1, 3, 67.0);
+        stickers.add(1, 4);
+        stickers.setLabel(1, 4, 3.0);
+        stickers.add(2, 5);
+        stickers.setLabel(2, 5, 1.0);
+        stickers.add(5, 4);
+        stickers.setLabel(5, 4, 7.0);
+        stickers.add(2, 3);
+        stickers.setLabel(2, 3, 4.0);
+        stickers.add(4, 3);
+        stickers.setLabel(4, 3, 2.0);
+        stickers.add(3, 6);
+        stickers.setLabel(3, 6, 1.0);
+        stickers.add(6, 7);
+        stickers.setLabel(6, 7, 4.0);
+        stickers.add(7, 8);
+        stickers.setLabel(7, 8, 2983424.0);
+        assertEquals(1, turn.getSource());
+        assertEquals(6, turn.getDest());
+        List<Integer> correct = Arrays.asList(1, 4, 3, 6);
+        turn.setPaths();
+        assertEquals(correct, turn.pathTo());
+        assertEquals(true, turn.hasBeenVisited(3));
+        assertEquals(false, turn.hasBeenVisited(7));
+    }
+}

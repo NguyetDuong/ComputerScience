@@ -1,0 +1,17 @@
+#Problem 1: 5 I think I got the right idea in terms of trying to find the answer, however I did not use the right number when I was finding the inverse. I found it to be the inverse of mod 101 instead of mod 100.
+#Problem 2.a: 8 [deviating] I think I said it right except I added a following statement in attempt to prove that the mod PQ is still y.
+#Problem 2.b: 5 [deviating] Sort of right but I put d2 instead of actually 1. 
+#Problem 2.c: 8 [deviating] I put together the two answers above and said it has to be one because 1*1 is 1...
+#Problem 3.a: 10 
+#Problem 3.b: 10 
+#Problem 3.c: 10 
+#Problem 4.a: 8 [deviating] It sounds like something I was trying to say but I am not super sure. 
+#Problem 4.b: 0 I didn't know how to make it harder or not possible to copy. 
+#Problem 5.a: 10 
+#Problem 5.b: 10 
+#Problem 5.c: 10 
+#Problem 5.d: 10 
+#Problem 6: 8 [deviating] I think I got it right but did not substitute it correctly as the answer is mostly correct except for a. 
+#Problem 7: 0 
+#Problem 8.a: 10 
+#Problem 8.b: 10 

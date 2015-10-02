@@ -1,0 +1,186 @@
+package graph;
+
+import java.util.ArrayList;
+
+
+/* See restrictions in Graph.java. */
+
+/** A partial implementation of Graph containing elements common to
+ *  directed and undirected graphs.
+ *
+ *  @author Nguyet Duong
+ */
+abstract class GraphObj extends Graph {
+
+	private ArrayList<Integer> vertex;
+	private ArrayList<ArrayList<Integer>> sucessors;
+	
+    /** A new, empty Graph. */
+    GraphObj() {
+        // FIXME
+    	vertex = new ArrayList<Integer>();
+    	sucessors = new ArrayList<ArrayList<Integer>>();
+    }
+
+    @Override
+    public int vertexSize() {
+        // FIXME
+        return vertex.size();
+    }
+
+    @Override
+    public int maxVertex() {
+        // FIXME
+    	if (vertex.size() == 0) {
+    		return 0;
+    	}
+    	int maximum = vertex.get(0);
+    	for (int a = 1; a < vertex.size(); a++) {
+    		if (vertex.get(a) > maximum) {
+    			maximum = vertex.get(a);
+    		}
+    	}
+        return maximum;
+    }
+
+    @Override
+    public int edgeSize() {
+        // FIXME
+        return 0;
+    }
+
+    @Override
+    public abstract boolean isDirected();
+
+    @Override
+    public int outDegree(int v) {
+        // FIXME
+        return 0;
+    }
+
+    @Override
+    public abstract int inDegree(int v);
+
+    @Override
+    public boolean contains(int u) {
+        // FIXME
+        return vertex.contains(u);
+    }
+
+    @Override
+    public boolean contains(int u, int v) {
+        // FIXME
+    	ArrayList<Integer> connection = new ArrayList<Integer>();
+    	connection.add(u);
+    	connection.add(v);
+        return sucessors.contains(connection);
+    }
+
+    @Override
+    public int add() {
+    	if (vertex.size() == 0) {
+    		vertex.add(1);
+    		return 1;
+    	} else if (vertex.get(0) != 1) {
+    		vertex.add(0, 1);
+    		return 1;
+    	} else {
+    		int[] places = findNextInsertNum();
+    		vertex.add(places[1], places[0]);
+    		return places[0];
+    	}
+        // FIXME
+        
+    }
+    
+    private int[] findNextInsertNum() {
+    	int[] items = new int[2];
+    	for (int i = 0; i < vertex.size() - 1; i++) {
+    		int supposeNextNum = vertex.get(i) + 1;
+    		if (supposeNextNum != vertex.get(i + 1)) {
+    			items[0] = supposeNextNum;
+    			items[1] = i + 1;
+    			return items;
+    		}
+    	}
+    	
+    	items[0] = vertex.size() + 1;
+    	items[1] = vertex.size();
+    	return items;
+    }
+
+    @Override
+    public int add(int u, int v) {
+        // FIXME
+    	ArrayList<Integer> connection = new ArrayList<Integer>();
+    	connection.add(u);
+    	connection.add(v);
+    	if (!contains(u) || !contains(v)) {
+    		throw new Error("Not possible -- one or both vertices do not nexist");
+    	} else if (!sucessors.contains(connection)) {
+    		sucessors.add(connection);
+    	}
+    	
+        return u;
+    }
+
+    @Override
+    public void remove(int v) {
+        // FIXME
+    }
+
+    @Override
+    public void remove(int u, int v) {
+        // FIXME
+    }
+
+    @Override
+    public Iteration<Integer> vertices() {
+        // FIXME
+        return null;
+    }
+
+    @Override
+    public int successor(int v, int k) {
+        // FIXME
+        return 0;
+    }
+
+    @Override
+    public abstract int predecessor(int v, int k);
+
+    @Override
+    public Iteration<Integer> successors(int v) {
+        // FIXME
+        return null;
+    }
+
+    @Override
+    public abstract Iteration<Integer> predecessors(int v);
+
+    @Override
+    public Iteration<int[]> edges() {
+        // FIXME
+        return null;
+    }
+
+    @Override
+    protected boolean mine(int v) {
+        // FIXME
+        return false;
+    }
+
+    @Override
+    protected void checkMyVertex(int v) {
+        // FIXME
+    }
+
+    @Override
+    protected int edgeId(int u, int v) {
+        // FIXME
+        return 0;
+    }
+
+    // FIXME
+
+}

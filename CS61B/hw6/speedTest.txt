@@ -1,0 +1,18 @@
+Results for InsertRandomSpeedTest:
+A lot of my inputs came out to be 0s. However when
+I neared ~1000, I get around 0.02s for linked-list sets.
+
+
+Results for InsertInOrderSpeedTest:
+Everything I input comes out to be 0s.
+Except for linked-list set, which finally reached 0.01s 
+when I got to around 100. 
+
+
+
+Explain anything interesting that you might have observed above:
+The biggest reason I have for my BSTStringSet to be 0 is that I may not have 
+written the code correctly. Linked-list, however seems to be the exception between
+the three that is created. For the TreeSet, it appears how they make it creates more
+efficient branches than linked-list. It may be because all of linked-lists branches are
+created one by one while TreeSets can create two?

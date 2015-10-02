@@ -1,0 +1,110 @@
+
+%%% PAGE DIMENSIONS
+%\usepackage{geometry} % to change the page dimensions
+%\geometry{a4paper} % or letterpaper (US) or a5paper or....
+%\geometry{margin=2in} % for example, change the margins to 2 inches all round
+%\geometry{landscape} % set up the page for landscape
+
+%%% PACKAGES
+%\usepackage{graphicx} % support the \includegraphics command and options
+%\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{amsmath, amsfonts}
+%\usepackage{booktabs} % for much better looking tables
+%\usepackage{array} % for better arrays (eg matrices) in maths
+%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+%\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+%These packages are all incorporated in the memoir class to one degree or another...
+
+
+\iffalse
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape}
+
+
+\fi
+
+%%% The "real" document content comes below...
+
+
+\documentclass[12pt,fleqn]{article}
+\usepackage{latexsym,epsf,amssymb,amsmath,amsthm,graphicx}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\def\Homework{11}%Number of Homework
+\def\Session{Spring 2015}
+\def\Name{Nguyet Minh Duong} % Fill in your name here
+
+\markboth{}{CS70, \Session, HW \Homework, \Name}
+\pagestyle{myheadings}
+
+\title{CS 70, \Session\ --- Solutions to Homework \Homework}
+\date{April 14, 2015}
+
+\begin{document}
+\maketitle
+
+\section*{Due Monday April 14 at 12 noon}
+
+
+%%% EVERYTHING BELOW THIS WILL REMAIN THE SAME!!!
+
+\begin{enumerate}
+  \item \textbf{Virtual Lab}
+ 	\begin{enumerate}
+ 		\item \begin{enumerate}
+ 			\item The result numbers grow bigger and bigger as we increase our number of bins choices. It grows in a logorithmic pattern almost. It goes up high but not in a linear pattern. 
+ 			\item Around 2000 - 3000 bins is when we can safely put around 50 balls without collision. 
+ 			\item If we have 1000 bins, if we chose 1000 bins, we will almost always get around 1000 for the number of balls before it stops.
+ 			\item As the number of randomized bins gets larger and larger, it goes to the number of bins and stops there. 
+ 		\end{enumerate}
+ 		\item \begin{enumerate}
+ 			\item Yes, the chart does look flatter and flatter. This might be because there is more probability for it to land into bins that already have had other ones since there are more balls and less bins.
+ 			\item Yes, the chart does get flatter because it is simulating what was happeningin the first example. It gets flat because we have more options to throw it into. So if the options of bins to throw it into equals the total number of bins, of course the bins will have a more consistent number -- meaning only one per bin because that's what we prefer to have. 
+ 			\item From what we discussed about before, it should be 1000 options in order for our load to be 1. Unfortunately I cannot test it because it seems like the program crashes. However I tried it with smaller numbers and it seems to work.
+ 			\item This shouldn't be possible at all because we're choosing from one bin. There is a really low probability that it will have a maximum load of 1 for 50 balls unless we have an huge amount of bins to choose from -- which is possible but definitely over 1000. However I cannot test this since the program crashes after 1000.
+ 			\item In the case of 1 choice, it seems to grow faster. 
+ 		\end{enumerate}
+ 	\end{enumerate}
+  
+  \newpage
+  \item \textbf{The Power of Choice}
+	\begin{itemize}
+		\item[(a)] If there was only one function to put it into the hash table, the probability of being unable to put x into the table would be $\frac{k}{n}$ if the table has the same aspects given in this problem. However, x is given another choice for location out of all of the positions in the hash table from the second function, which essentially has the same probability of being unable to put x into the table. If we consider these functions to be minimize lack of overlaps, the probability of of the given question would be the multiple of these two. Hence why it is $\frac{k^2}{n^2}$. It is sort of like n is being reshuffled so there are more ways of inputting the x. And therefore it is a lower possibility of throwing away the table. 
+	\end{itemize}
+  
+  \newpage
+  \item \textbf{Balls and pin, again}
+  	\begin{itemize}
+  		\item[(a)] $\frac{1}{n}$. The reason for this is because the jth ball can be in any of the n bins. Therefore, we want to make a shot such that the ith ball lands into the specific bin the jth ball is in, which is one out of the n bins.
+  		\item[(b)] From the first part, we know that the probability of the ball i colliding with ball j is $\frac{1}{n}$, where collision means it is thrown into the same bin. Therefore we first need to calculate the probability of collision amongst all of the balls from the first one to the one right before the ball we look at. In this case it would be $\sum^{i-1}_{j=1} \frac{1}{n}$. Then using this, we need to calculate this for all the balls up to our final ball -- since we pay for every single throw that collides. Therefore the final answer should be $\sum^{n}_{i=1} \sum^{i-1}_{j=1} \frac{1}{n} = \frac{n-1}{2}$. Therefore we will lose approximately \$25 dollars if there are n balls and n bins. 
+  	\end{itemize}
+  
+  \newpage
+  \item \textbf{Runs}
+  We know that the very first positioning will always have 1 run. If we want to know the total amount of possible runs, we would have to add the probability of every positioning being different from the previous. So depending on whether it is heads or tails, it will have different chances. The chance of it being different in this case would have to be $2p(1-p)$ because you are taking in consideration of the previous being heads and the next being tails and vice versa. Now we need to calculate this for the rest of the flips. 
+  
+  So for n flips, the answer is $1 + 2p(n - 1)(1 - p)$
+  
+  
+  \newpage
+  \item \textbf{Second Chance}
+  The average of dots for the dice is $\frac{7}{2}$. 
+  
+  
+  \newpage
+  \item \textbf{James Bond}
+ 
+ 
+  \newpage
+  \item \textbf{Extra credit}
+  
+  YOUR ANSWER HERE
+
+
+\end{enumerate}
+
+\end{document}

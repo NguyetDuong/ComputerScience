@@ -1,0 +1,152 @@
+
+%%% PAGE DIMENSIONS
+%\usepackage{geometry} % to change the page dimensions
+%\geometry{a4paper} % or letterpaper (US) or a5paper or....
+%\geometry{margin=2in} % for example, change the margins to 2 inches all round
+%\geometry{landscape} % set up the page for landscape
+
+%%% PACKAGES
+%\usepackage{graphicx} % support the \includegraphics command and options
+%\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{amsmath, amsfonts}
+%\usepackage{booktabs} % for much better looking tables
+%\usepackage{array} % for better arrays (eg matrices) in maths
+%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+%\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+%These packages are all incorporated in the memoir class to one degree or another...
+
+
+\iffalse
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape}
+
+
+\fi
+
+%%% The "real" document content comes below...
+
+
+\documentclass[12pt,fleqn]{article}
+\usepackage{latexsym,epsf,amssymb,amsmath,amsthm,graphicx}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\def\Homework{12}%Number of Homework
+\def\Session{Spring 2015}
+\def\Name{Nguyet Minh Duong} % Fill in your name here
+
+\markboth{}{CS70, \Session, HW \Homework, \Name}
+\pagestyle{myheadings}
+
+\title{CS 70, \Session\ --- Solutions to Homework \Homework}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Due Monday April 20 at 12 noon}
+
+
+%%% EVERYTHING BELOW THIS WILL REMAIN THE SAME!!!
+
+\begin{enumerate}
+  \item \textbf{Elevator}
+  
+    \begin{enumerate}
+      \item 
+		The probability of the elevator stopping at all on floor 3 means that at least one of the eight people in the elevator will get off. Every single person on the elevator has a $\frac{1}{10}$ probability of getting off on floor 3, because there is 10 floors total. This means the probability that it stops on floor 3, is all of these probability combined. Therefore, the probability of the elevator stopping on floor three is $\frac{8}{10} \approx 0.8$. 
+    
+      \item 
+		$1 * \frac{1}{10} + 2 * \frac{1}{10} + 3 * \frac{1}{10} + 4 * \frac{1}{10} + 5 * \frac{1}{10} + 6 * \frac{1}{10} + 7 * \frac{1}{10} + 8 * \frac{1}{10} + 9 * \frac{1}{10} + 10 * \frac{1}{10} = 5.5$
+      
+    \end{enumerate}
+    
+  
+  \newpage
+  \item \textbf{Soulmates}
+
+  For this, we know that the probability of a man's top woman also has him as the top of her list is $\frac{1}{n}$. We also know that there are n-instances of this. Therefore, our answer would be 1 since it is the addition of all the probability of chances if this happening with every man. Since there are n men, we add the fraction n times. 
+  
+  
+  \newpage
+  \item \textbf{Variance}
+  
+    \begin{enumerate}
+      \item 
+      YOUR ANSWER HERE
+    
+      \item 
+      YOUR ANSWER HERE
+      
+    \end{enumerate}
+  
+  
+  \newpage
+  \item \textbf{Markov and Chebyshev}
+  
+  YOUR ANSWER HERE
+  
+  
+  \newpage
+  \item \textbf{Random bit strings}
+  
+  \begin{enumerate}
+    \item 
+    YOUR ANSWER HERE
+    
+    \item 
+    YOUR ANSWER HERE
+    
+    \item 
+    YOUR ANSWER HERE
+    
+    \item
+    YOUR ANSWER HERE
+      
+  \end{enumerate}
+  
+  
+  \newpage
+  \item \textbf{Display}
+ 
+    \begin{enumerate}
+      \item 
+      YOUR ANSWER HERE
+    
+      \item 
+      YOUR ANSWER HERE
+    
+      \item 
+      YOUR ANSWER HERE
+      
+    \end{enumerate}
+  
+  
+  \newpage
+  \item \textbf{Which door?}
+  
+    \begin{enumerate}
+      \item 
+      YOUR ANSWER HERE
+    
+      \item 
+      YOUR ANSWER HERE
+    
+      \item 
+      YOUR ANSWER HERE
+      
+    \end{enumerate}
+  
+  
+  \newpage
+  \item \textbf{Extra credit: Non-transitive Dice}
+  
+  YOUR ANSWER HERE
+
+
+\end{enumerate}
+
+\end{document}

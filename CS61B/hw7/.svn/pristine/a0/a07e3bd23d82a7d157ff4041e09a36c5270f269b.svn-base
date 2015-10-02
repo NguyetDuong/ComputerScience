@@ -1,0 +1,22 @@
+Results for InsertRandomSpeedTest for N = 1000000:
+
+
+Results for InsertRandomSpeedTest for N = 2000000:
+
+
+Does your ECHashStringSet look roughly linear or roughly quadratic in its scaling behavior for random strings?
+
+
+
+
+Results for InsertInOrderSpeedTest for N = 10000:
+
+
+Results for InsertInOrderSpeedTest for N = 20000:
+
+
+Does your **BST**StringSet look roughly linear or roughly quadratic in its scaling behavior for in order strings? 
+
+
+Before submitting, make sure that your ECHashStringSet is capable of handling inputs of size 1000000 in a reasonable amount of time (less than a minute).
+

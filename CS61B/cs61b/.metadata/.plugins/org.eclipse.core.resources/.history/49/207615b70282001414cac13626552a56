@@ -1,0 +1,22 @@
+package graph;
+import java.util.Iterator;
+
+/** This class is an implementation that extends Iterator */
+public class Iterate<Type> extends Iteration<Type> {
+    
+    private Iterator<Type> _default;
+    /** Takes in an iterator and creates an Iterate object. */
+    Iterate(Iterator<Type> inp) {
+        _default = inp;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return _default.hasNext();
+    }
+
+    @Override
+    public Type next() {
+        return _default.next();
+    }
+}

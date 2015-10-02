@@ -1,0 +1,91 @@
+package creatures;
+import huglife.Creature;
+import huglife.Direction;
+import huglife.Action;
+import huglife.Occupant;
+import huglife.Lab5Utils;
+import java.awt.Color;
+import java.util.Map;
+import java.util.List;
+
+/** An implementation of a hungry clorus that will snack on Plips :(.
+ *  @author Nguyet Duong
+ */
+public class Clorus extends Creature {
+    /** red color. */
+    private int r;
+    /** green color. */
+    private int g;
+    /** blue color. */
+    private int b;
+
+    /** Creates clorus with energy equal to E. */
+    public Clorus(double e) {
+        super("clorus");
+        r = 34;
+        g = 0;
+        b = 231;
+        energy = e;
+    }
+
+    /** Creates a clorus with energy equal to 1. */
+    public Clorus() {
+        this(1);
+    }
+
+    /** Returns the color of the clorus, all cloruses look the same */
+    public Color color() {
+        return color(r, g, b);
+    }
+
+    /** If the clorus decides to attack another creature, it will gain all
+     *  of the creature's energy */
+    public void attack(Creature c) {
+        energy += c.energy();
+    }
+
+    /** Clorus will gain 0.03 energy per move. */
+    public void move() {
+        energy += 0.03;
+    }
+
+
+    /** Clorus will lose 0.01 energy when they stand still because they like eating. */
+    public void stay() {
+        energy -= 0.01;
+    }
+
+    /** Clorus does the same thing as a Plip. It will give 50% of its energy
+     *  to the offspring. 
+     *  This will return a Clorus
+     */
+    public Clorus replicate() {
+        Clorus babyClorus = new Clorus(energy/2);
+        energy = energy/2;
+        return babyClorus;
+    }
+
+    /** Cloruses' rules on how they work:
+     *  1. If there are no empty spaces around them, they will stay even
+     *  if there is a Plip around
+     *  2. Otherwise they will attack a random Plip
+     *  3. If Plip has more energy that 1.0, it will replicate into a random square
+     *  4. Otherwise, Clorus will move
+     */
+    public Action chooseAction(Map<Direction, Occupant> neighbors) {
+        List<Direction> emptyPositions = getNeighborsOfType(neighbors, "empty");
+        List<Direction> plipsAroundMe = getNeighborsOfType(neighbors, "plip");
+        int randomPlace = (int)(Math.random() * emptyPositions.size());
+        int randomPlipsToEat = (int)(Math.random() * plipsAroundMe.size());
+
+        if (emptyPositions.size() == 0) {
+            return new Action(Action.ActionType.STAY);
+        } else if (plipsAroundMe.size() > 0) {
+            return new Action(Action.ActionType.ATTACK, plipsAroundMe.get(randomPlipsToEat));
+        } else if (energy >= 1.0) {
+            return new Action(Action.ActionType.REPLICATE, emptyPositions.get(randomPlace));
+        } 
+
+        return new Action(Action.ActionType.MOVE, emptyPositions.get(randomPlace));
+    }
+}

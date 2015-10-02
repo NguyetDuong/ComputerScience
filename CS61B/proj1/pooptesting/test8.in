@@ -1,0 +1,3 @@
+load generic1;
+
+select Col1 from generic1, generic1;
