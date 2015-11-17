@@ -1,0 +1,119 @@
+; Exercise 1
+
+; SICP 2.7 - Define upper-bound and lower-bound
+
+(define (add-interval x y)
+  (make-interval (+ (lower-bound x) (lower-bound y))
+                 (+ (upper-bound x) (upper-bound y))))
+
+(define (mul-interval x y)
+  (let ((p1 (* (lower-bound x) (lower-bound y)))
+        (p2 (* (lower-bound x) (upper-bound y)))
+        (p3 (* (upper-bound x) (lower-bound y)))
+        (p4 (* (upper-bound x) (upper-bound y))))
+    (make-interval (min p1 p2 p3 p4)
+                   (max p1 p2 p3 p4))))
+
+(define (make-interval a b) (cons a b))
+
+(define (upper-bound items)
+  (cdr items))
+(define (lower-bound items)
+  (car items))
+
+
+; SICP 2.8 - Define sub-interval
+(define (sub-interval x y)
+  (make-interval (abs (- (car x) (cdr y))) (abs (- (cdr x) (car y))))
+
+		 
+)
+
+; SICP 2.10 - Modify div-interval
+
+(define (div-interval x y)
+  (mul-interval x 
+                (make-interval (/ 1 (upper-bound y))
+                               (/ 1 (lower-bound y)))))
+
+
+
+; SICP 2.12 - Define make-center-percent and percent
+
+(define (make-center-width c w)
+  (make-interval (- c w) (+ c w)))
+(define (center i)
+  (/ (+ (lower-bound i) (upper-bound i)) 2))
+(define (width i)
+  (/ (- (upper-bound i) (lower-bound i)) 2))
+
+	
+
+
+; SICP 2.17 - Define last-pair
+(define (last-pair items)
+  (list (list-ref items (- (length items) 1))))
+
+; SICP 2.20 - Define same-parity
+(define (same-parity a . b)
+	(define (getOdds aList aLength emptyList)
+		(if (= aLength 0)
+			emptyList
+			(if (odd? (car aList))
+				(getOdds (cdr aList) (- aLength 1)(append emptyList (list (car aList))))
+				(getOdds (cdr aList) (- aLength 1) emptyList)))
+	)
+	(define (getEvens aList aLength emptyList)
+		(if (= aLength 0)
+			emptyList
+			(if (even? (car aList))
+				(getEvens (cdr aList) (- aLength 1)(append emptyList (list (car aList))))
+				(getEvens (cdr aList) (- aLength 1) emptyList)))
+	)
+	
+	(if (odd? a)
+		(append (list a) (getOdds b (length b) (list)))
+		(append (list a) (getEvens b (length b) (list)))
+	)
+		
+		
+		
+	
+ )
+
+    
+      
+
+
+; SICP 2.22 - Write your explanation in the comment block:
+#|
+Your explanation here
+|#
+
+
+; SICP 2.23 - Define for-each
+
+
+; Exercise 2 - Define substitute
+(define (substitute sentenceList oldWd newWd)
+  (cond ((null? sentenceList) '())
+	((list? (car sentenceList))
+	 (cons (substitute (car sentenceList) oldWd newWd) (substitute (cdr sentenceList) oldWd newWd)))
+	((equal? oldWd (car sentenceList))
+	 (cons newWd (substitute (cdr sentenceList) oldWd newWd)))
+	(else (cons (car sentenceList) (substitute (cdr sentenceList) oldWd newWd))))
+
+)
+
+
+; Exercise 3 - Define substitute2
+(define (substitute2 sentList oldWdList newWdList)
+	(if (null? oldWdList)
+		sentList
+		(substitute2 (substitute sentList (car oldWdList) (car newWdList)) (cdr oldWdList) (cdr newWdList)))
+	
+)
+	
+	
+	
+	
