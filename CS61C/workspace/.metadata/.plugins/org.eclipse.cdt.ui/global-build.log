@@ -1,0 +1,804 @@
+15:58:16 **** Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: ../src/tables.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/tables.d" -MT"src/tables.d" -o "src/tables.o" "../src/tables.c"
+../src/tables.c:174:1: warning: control may reach end of non-void function [-Wreturn-type]
+}
+^
+1 warning generated.
+Finished building: ../src/tables.c
+ 
+Building file: ../src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "../src/translate.c"
+../src/translate.c:120:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "beq") == 0)   return write_branch (0x04, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:121:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "bne") == 0)   return write_branch (0x05, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:122:49: warning: implicit declaration of function 'write_' is invalid in C99 [-Wimplicit-function-declaration]
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                ^
+../src/translate.c:122:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:123:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:131:5: error: use of undeclared identifier 'rturn'
+    rturn -1;
+    ^
+../src/translate.c:147:5: error: use of undeclared identifier 'rturn'
+    rturn -1;
+    ^
+../src/translate.c:151:57: error: expected ';' at end of declaration
+  int err = translate_num(&immediate, args[1], 0, 65535)//all values representable by unsigned 16-bits
+                                                        ^
+                                                        ;
+../src/translate.c:158:3: error: use of undeclared identifier 'instruction'
+  instruction = instruction<<26 | rt<<16 | immediate;
+  ^
+../src/translate.c:158:17: error: use of undeclared identifier 'instruction'
+  instruction = instruction<<26 | rt<<16 | immediate;
+                ^
+../src/translate.c:159:26: error: use of undeclared identifier 'instruction'
+  write_inst_hex(output, instruction);
+                         ^
+../src/translate.c:173:64: error: expected ';' at end of declaration
+    int err = translate_num(&immediate, args[2], -32768, 32768)//all values representable by unsigned 16-bits.  -32768 lower bound?
+                                                               ^
+                                                               ;
+../src/translate.c:180:5: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+    ^
+../src/translate.c:180:19: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+                  ^
+../src/translate.c:181:28: error: use of undeclared identifier 'instruction'
+    write_inst_hex(output, instruction);
+                           ^
+../src/translate.c:195:59: error: expected ';' at end of declaration
+    int err = translate_num(&immediate, args[2], 0, 65535)//all values representable by unsigned 16-bits.  -32768 lower bound?
+                                                          ^
+                                                          ;
+../src/translate.c:202:5: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+    ^
+../src/translate.c:202:19: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+                  ^
+../src/translate.c:203:28: error: use of undeclared identifier 'instruction'
+    write_inst_hex(output, instruction);
+                           ^
+../src/translate.c:217:55: error: expected ';' after expression
+    destination = get_addr_for_symbol(symtbl, args[2])
+                                                      ^
+                                                      ;
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+1 warning and 20 errors generated.
+make: *** [src/translate.o] Error 1
+15:58:19 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: ../src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "../src/translate.c"
+../src/translate.c:120:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "beq") == 0)   return write_branch (0x04, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:121:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "bne") == 0)   return write_branch (0x05, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:122:49: warning: implicit declaration of function 'write_' is invalid in C99 [-Wimplicit-function-declaration]
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                ^
+../src/translate.c:122:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:123:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:131:5: error: use of undeclared identifier 'rturn'
+    rturn -1;
+    ^
+../src/translate.c:147:5: error: use of undeclared identifier 'rturn'
+    rturn -1;
+    ^
+../src/translate.c:151:57: error: expected ';' at end of declaration
+  int err = translate_num(&immediate, args[1], 0, 65535)//all values representable by unsigned 16-bits
+                                                        ^
+                                                        ;
+../src/translate.c:158:3: error: use of undeclared identifier 'instruction'
+  instruction = instruction<<26 | rt<<16 | immediate;
+  ^
+../src/translate.c:158:17: error: use of undeclared identifier 'instruction'
+  instruction = instruction<<26 | rt<<16 | immediate;
+                ^
+../src/translate.c:159:26: error: use of undeclared identifier 'instruction'
+  write_inst_hex(output, instruction);
+                         ^
+../src/translate.c:173:64: error: expected ';' at end of declaration
+    int err = translate_num(&immediate, args[2], -32768, 32768)//all values representable by unsigned 16-bits.  -32768 lower bound?
+                                                               ^
+                                                               ;
+../src/translate.c:180:5: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+    ^
+../src/translate.c:180:19: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+                  ^
+../src/translate.c:181:28: error: use of undeclared identifier 'instruction'
+    write_inst_hex(output, instruction);
+                           ^
+../src/translate.c:195:59: error: expected ';' at end of declaration
+    int err = translate_num(&immediate, args[2], 0, 65535)//all values representable by unsigned 16-bits.  -32768 lower bound?
+                                                          ^
+                                                          ;
+../src/translate.c:202:5: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+    ^
+../src/translate.c:202:19: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+                  ^
+../src/translate.c:203:28: error: use of undeclared identifier 'instruction'
+    write_inst_hex(output, instruction);
+                           ^
+../src/translate.c:217:55: error: expected ';' after expression
+    destination = get_addr_for_symbol(symtbl, args[2])
+                                                      ^
+                                                      ;
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+1 warning and 20 errors generated.
+make: *** [src/translate.o] Error 1
+15:59:01 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: ../src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "../src/translate.c"
+../src/translate.c:120:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "beq") == 0)   return write_branch (0x04, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:121:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "bne") == 0)   return write_branch (0x05, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:122:49: warning: implicit declaration of function 'write_' is invalid in C99 [-Wimplicit-function-declaration]
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                ^
+../src/translate.c:122:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:123:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:131:5: error: use of undeclared identifier 'rturn'
+    rturn -1;
+    ^
+../src/translate.c:147:5: error: use of undeclared identifier 'rturn'
+    rturn -1;
+    ^
+../src/translate.c:151:57: error: expected ';' at end of declaration
+  int err = translate_num(&immediate, args[1], 0, 65535)//all values representable by unsigned 16-bits
+                                                        ^
+                                                        ;
+../src/translate.c:158:3: error: use of undeclared identifier 'instruction'
+  instruction = instruction<<26 | rt<<16 | immediate;
+  ^
+../src/translate.c:158:17: error: use of undeclared identifier 'instruction'
+  instruction = instruction<<26 | rt<<16 | immediate;
+                ^
+../src/translate.c:159:26: error: use of undeclared identifier 'instruction'
+  write_inst_hex(output, instruction);
+                         ^
+../src/translate.c:173:64: error: expected ';' at end of declaration
+    int err = translate_num(&immediate, args[2], -32768, 32768)//all values representable by unsigned 16-bits.  -32768 lower bound?
+                                                               ^
+                                                               ;
+../src/translate.c:180:5: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+    ^
+../src/translate.c:180:19: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+                  ^
+../src/translate.c:181:28: error: use of undeclared identifier 'instruction'
+    write_inst_hex(output, instruction);
+                           ^
+../src/translate.c:195:59: error: expected ';' at end of declaration
+    int err = translate_num(&immediate, args[2], 0, 65535)//all values representable by unsigned 16-bits.  -32768 lower bound?
+                                                          ^
+                                                          ;
+../src/translate.c:202:5: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+    ^
+../src/translate.c:202:19: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | immediate;
+                  ^
+../src/translate.c:203:28: error: use of undeclared identifier 'instruction'
+    write_inst_hex(output, instruction);
+                           ^
+../src/translate.c:217:55: error: expected ';' after expression
+    destination = get_addr_for_symbol(symtbl, args[2])
+                                                      ^
+                                                      ;
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+1 warning and 20 errors generated.
+make: *** [src/translate.o] Error 1
+21:06:50 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: ../src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "../src/translate.c"
+../src/translate.c:120:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "beq") == 0)   return write_branch (0x04, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:121:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "bne") == 0)   return write_branch (0x05, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:122:49: warning: implicit declaration of function 'write_' is invalid in C99 [-Wimplicit-function-declaration]
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                ^
+../src/translate.c:122:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:123:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:223:45: error: expected ';' after expression
+    offset = ((uint32_t) destination) - addr
+                                            ^
+                                            ;
+../src/translate.c:259:61: error: expected ';' at end of declaration
+    int err = translate_num(&offset, args[1], -32768, 32767)//all values representable by signed 16-bits.  65535 upper bound?
+                                                            ^
+                                                            ;
+../src/translate.c:266:5: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | offset;
+    ^
+../src/translate.c:266:19: error: use of undeclared identifier 'instruction'
+    instruction = instruction<<26 | rs<<21 | rt<<16 | offset;
+                  ^
+../src/translate.c:267:28: error: use of undeclared identifier 'instruction'
+    write_inst_hex(output, instruction);
+                           ^
+1 warning and 9 errors generated.
+make: *** [src/translate.o] Error 1
+21:08:14 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: ../src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "../src/translate.c"
+../src/translate.c:120:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "beq") == 0)   return write_branch (0x04, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:121:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "bne") == 0)   return write_branch (0x05, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:122:49: warning: implicit declaration of function 'write_' is invalid in C99 [-Wimplicit-function-declaration]
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                ^
+../src/translate.c:122:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:123:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:223:45: error: expected ';' after expression
+    offset = ((uint32_t) destination) - addr
+                                            ^
+                                            ;
+1 warning and 5 errors generated.
+make: *** [src/translate.o] Error 1
+21:11:36 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: ../src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "../src/translate.c"
+../src/translate.c:120:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "beq") == 0)   return write_branch (0x04, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:121:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "bne") == 0)   return write_branch (0x05, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:122:49: warning: implicit declaration of function 'write_' is invalid in C99 [-Wimplicit-function-declaration]
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                ^
+../src/translate.c:122:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:123:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+1 warning and 4 errors generated.
+make: *** [src/translate.o] Error 1
+21:11:41 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: ../src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "../src/translate.c"
+../src/translate.c:120:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "beq") == 0)   return write_branch (0x04, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:121:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "bne") == 0)   return write_branch (0x05, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+../src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+../src/translate.c:122:49: warning: implicit declaration of function 'write_' is invalid in C99 [-Wimplicit-function-declaration]
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                ^
+../src/translate.c:122:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+../src/translate.c:123:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+1 warning and 4 errors generated.
+make: *** [src/translate.o] Error 1
+21:13:08 **** Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/tables.d" -MT"src/tables.d" -o "src/tables.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c:174:1: warning: control may reach end of non-void function [-Wreturn-type]
+}
+^
+1 warning generated.
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:120:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "beq") == 0)   return write_branch (0x04, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:121:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "bne") == 0)   return write_branch (0x05, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:122:49: warning: implicit declaration of function 'write_' is invalid in C99 [-Wimplicit-function-declaration]
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:122:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:123:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:223:45: error: expected ';' after expression
+    offset = ((uint32_t) destination) - addr
+                                            ^
+                                            ;
+1 warning and 5 errors generated.
+make: *** [src/translate.o] Error 1
+21:39:00 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:120:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "beq") == 0)   return write_branch (0x04, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:121:91: error: too few arguments to function call, expected 6, have 4
+    else if (strcmp(name, "bne") == 0)   return write_branch (0x05, output, args, num_args);
+                                                ~~~~~~~~~~~~                              ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.h:31:1: note: 'write_branch' declared here
+int write_branch(uint8_t opcode, FILE* output, char** args, size_t num_args, 
+^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:122:49: warning: implicit declaration of function 'write_' is invalid in C99 [-Wimplicit-function-declaration]
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:122:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:123:58: error: invalid suffix 'x' on integer constant
+    else if (strcmp(name, "") == 0)      return write_ (0x, output, args, num_args);
+                                                         ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:223:45: error: expected ';' after expression
+    offset = ((uint32_t) destination) - addr
+                                            ^
+                                            ;
+1 warning and 5 errors generated.
+make: *** [src/translate.o] Error 1
+21:48:49 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c:223:45: error: expected ';' after expression
+    offset = ((uint32_t) destination) - addr
+                                            ^
+                                            ;
+1 error generated.
+make: *** [src/translate.o] Error 1
+21:48:59 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate.d" -MT"src/translate.d" -o "src/translate.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate_utils.d" -MT"src/translate_utils.d" -o "src/translate_utils.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c:63:5: error: use of undeclared identifier 'errno'
+    errno = 0;
+    ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c:64:7: error: expected expression
+    * char endP;
+      ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c:65:28: error: use of undeclared identifier 'endP'
+    *output = strtol(str, &endP, 0);//decimal: works,  hexa: fails due to unusual characters if not marked.
+                           ^
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c:66:9: error: use of undeclared identifier 'endP'
+    if (endP != '\0')  { //Did not reset endP to end of string, transaltion encountered problem.           //(*output == 0L || errno != 0) {
+        ^
+4 errors generated.
+make: *** [src/translate_utils.o] Error 1
+21:50:11 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate_utils.d" -MT"src/translate_utils.d" -o "src/translate_utils.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c:63:5: error: use of undeclared identifier 'errno'
+    errno = 0;
+    ^
+1 error generated.
+make: *** [src/translate_utils.o] Error 1
+21:50:38 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate_utils.d" -MT"src/translate_utils.d" -o "src/translate_utils.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/utils.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/utils.d" -MT"src/utils.d" -o "src/utils.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/utils.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/src/utils.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:152:11: warning: unused variable 'args' [-Wunused-variable]
+    char* args[MAX_ARGS];
+          ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:153:9: warning: unused variable 'num_args' [-Wunused-variable]
+    int num_args = 0;
+        ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:142:9: warning: unused variable 'line_number' [-Wunused-variable]
+    int line_number = 1; // Should only be incremented after we encounter a new command?
+        ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:32:13: warning: unused function 'raise_extra_arg_error' [-Wunused-function]
+static void raise_extra_arg_error(uint32_t input_line, const char* extra_arg) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:42:13: warning: unused function 'raise_inst_error' [-Wunused-function]
+static void raise_inst_error(uint32_t input_line, const char* name, char** args,
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:50:13: warning: unused function 'skip_comment' [-Wunused-function]
+static void skip_comment(char* str) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:73:12: warning: unused function 'add_if_label' [-Wunused-function]
+static int add_if_label(uint32_t input_line, char* str, uint32_t byte_offset,
+           ^
+7 warnings generated.
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+21:59:53 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/tables.d" -MT"src/tables.d" -o "src/tables.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:144:9: warning: unused variable 'line_number' [-Wunused-variable]
+    int line_number = 1; // Should only be incremented after we encounter a new command?
+        ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:154:11: warning: unused variable 'args' [-Wunused-variable]
+    char* args[MAX_ARGS];
+          ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:155:9: warning: unused variable 'num_args' [-Wunused-variable]
+    int num_args = 0;
+        ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:32:13: warning: unused function 'raise_extra_arg_error' [-Wunused-function]
+static void raise_extra_arg_error(uint32_t input_line, const char* extra_arg) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:42:13: warning: unused function 'raise_inst_error' [-Wunused-function]
+static void raise_inst_error(uint32_t input_line, const char* name, char** args,
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:50:13: warning: unused function 'skip_comment' [-Wunused-function]
+static void skip_comment(char* str) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:73:12: warning: unused function 'add_if_label' [-Wunused-function]
+static int add_if_label(uint32_t input_line, char* str, uint32_t byte_offset,
+           ^
+7 warnings generated.
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+22:08:23 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:155:9: warning: unused variable 'num_args' [-Wunused-variable]
+    int num_args = 0;
+        ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:144:9: warning: unused variable 'line_number' [-Wunused-variable]
+    int line_number = 1; // Should only be incremented after we encounter a new command?
+        ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:154:11: warning: unused variable 'args' [-Wunused-variable]
+    char* args[MAX_ARGS];
+          ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:32:13: warning: unused function 'raise_extra_arg_error' [-Wunused-function]
+static void raise_extra_arg_error(uint32_t input_line, const char* extra_arg) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:42:13: warning: unused function 'raise_inst_error' [-Wunused-function]
+static void raise_inst_error(uint32_t input_line, const char* name, char** args,
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:50:13: warning: unused function 'skip_comment' [-Wunused-function]
+static void skip_comment(char* str) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:73:12: warning: unused function 'add_if_label' [-Wunused-function]
+static int add_if_label(uint32_t input_line, char* str, uint32_t byte_offset,
+           ^
+7 warnings generated.
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+22:15:48 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+22:53:37 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:160:11: warning: unused variable 'name' [-Wunused-variable]
+    char* name = tokens;
+          ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:144:9: warning: unused variable 'line_number' [-Wunused-variable]
+    int line_number = 1; // Should only be incremented after we encounter a new command?
+        ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:32:13: warning: unused function 'raise_extra_arg_error' [-Wunused-function]
+static void raise_extra_arg_error(uint32_t input_line, const char* extra_arg) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:42:13: warning: unused function 'raise_inst_error' [-Wunused-function]
+static void raise_inst_error(uint32_t input_line, const char* name, char** args,
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:50:13: warning: unused function 'skip_comment' [-Wunused-function]
+static void skip_comment(char* str) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:73:12: warning: unused function 'add_if_label' [-Wunused-function]
+static int add_if_label(uint32_t input_line, char* str, uint32_t byte_offset,
+           ^
+6 warnings generated.
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+23:19:03 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:32:13: warning: unused function 'raise_extra_arg_error' [-Wunused-function]
+static void raise_extra_arg_error(uint32_t input_line, const char* extra_arg) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:50:13: warning: unused function 'skip_comment' [-Wunused-function]
+static void skip_comment(char* str) {
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:73:12: warning: unused function 'add_if_label' [-Wunused-function]
+static int add_if_label(uint32_t input_line, char* str, uint32_t byte_offset,
+           ^
+3 warnings generated.
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+23:32:45 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/tables.d" -MT"src/tables.d" -o "src/tables.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+11:40:54 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/tables.d" -MT"src/tables.d" -o "src/tables.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/translate_utils.d" -MT"src/translate_utils.d" -o "src/translate_utils.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/src/translate_utils.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:179:28: warning: incompatible pointer to integer conversion assigning to 'char' from 'char *'; dereference with * [-Wint-conversion]
+            args[num_args] = token;
+                           ^ ~~~~~
+                             *
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:190:59: warning: incompatible pointer types passing 'char [3]' to parameter of type 'char **' [-Wincompatible-pointer-types]
+        instructions_added = write_pass_one(output, name, args, num_args);
+                                                          ^~~~
+/Users/Sinnto/CS61C/proj1-cx-nq/src/translate.h:7:64: note: passing argument to parameter 'args' here
+unsigned write_pass_one(FILE* output, const char* name, char** args, int num_args);
+                                                               ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:193:49: warning: incompatible pointer types passing 'char [3]' to parameter of type 'char **' [-Wincompatible-pointer-types]
+            raise_inst_error(line_number, name, args, num_args);
+                                                ^~~~
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:42:76: note: passing argument to parameter 'args' here
+static void raise_inst_error(uint32_t input_line, const char* name, char** args,
+                                                                           ^
+3 warnings generated.
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+11:43:56 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+12:35:24 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/tables.d" -MT"src/tables.d" -o "src/tables.o" "/Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/src/tables.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+12:52:58 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:196:13: error: redefinition of 'i'
+        int i = 0;
+            ^
+/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c:183:13: note: previous definition is here
+        int i = 0;
+            ^
+1 error generated.
+make: *** [assembler.o] Error 1
+12:53:20 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1

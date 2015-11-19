@@ -1,0 +1,18 @@
+12:53:20 **** Incremental Build of configuration Debug for project proj1-cx-nq ****
+make all 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"assembler.d" -MT"assembler.d" -o "assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/assembler.c"
+Finished building: /Users/Sinnto/CS61C/proj1-cx-nq/assembler.c
+ 
+Building file: /Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"test_assembler.d" -MT"test_assembler.d" -o "test_assembler.o" "/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c"
+/Users/Sinnto/CS61C/proj1-cx-nq/test_assembler.c:5:10: fatal error: 'CUnit/Basic.h' file not found
+#include <CUnit/Basic.h>
+         ^
+1 error generated.
+make: *** [test_assembler.o] Error 1
+
+12:53:20 Build Finished (took 167ms)
+

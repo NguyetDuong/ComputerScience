@@ -1,0 +1,93 @@
+======= Problem 1 =======
+(a.1)
+tag = 32 - set index - block offset = 4 bit
+set index = log2(set size) = 10 bit
+block offset = log2(block size) = 2 bit
+
+>> num of set: cache size/block size == 4KiB/4byte == 1024 
+
+(a.2)
+Address | Cache Hit / Miss | Miss Type (Compulsory, Capacity, or Conflict)
+0x0000  | Miss             | Compulsory
+0x0004  | Miss             | Compulsory
+0x0008  | Miss             | Compulsory
+0x000c  | Miss             | Compulsory
+0x1000  | Miss             | Compulsory
+0x1004  | Miss             | Compulsory
+0x1008  | Miss             | Compulsory
+0x100c  | Miss             | Compulsory
+0x0000  | Miss             | Conflict
+0x0004  | Miss             | Conflict
+0x0008  | Miss             | Conflict
+0x000c  | Miss             | Conflict
+
+(a.3)
+Miss rate = 100%
+AMAT = Hit Time + Miss Rate * Miss Penality = 2 + 1 * 100 = 102 * 0.5ns = 51ns
+(no cache time) - AMAT = -51ns. So it will increase by 51ns if there is no cache. 
+
+(b.1)
+tag = 4 bits
+set index = 9 bits
+block offset = 3 bits
+
+(b.2)
+Address | Cache Hit / Miss | Miss Type (Compulsory, Capacity, or Conflict)
+0x0000  | Miss             | Compulsory
+0x0004  | Hit              |
+0x0008  | Miss             | Compulsory
+0x000c  | Hit              |
+0x1000  | Miss             | Compulsory
+0x1004  | Hit              |
+0x1008  | Miss             | Compulsory
+0x100c  | Hit              |
+0x0000  | Miss             | Conflict
+0x0004  | Hit              |
+0x0008  | Miss             | Conflict
+0x000c  | Hit              |
+
+(b.3)
+miss rate = 50%
+hit time = 3ns
+miss time = 3ns
+AMAT = 26ns
+(no cache time) - AMAT = -26ns 
+
+(c.1)
+tag = 6 bits
+set index = 7 bits
+block offset = 3 bits
+
+(c.2)
+Address | Cache Hit / Miss | Miss Type (Compulsory, Capacity, or Conflict)
+0x0000  | Miss             | Compulsory
+0x0004  | Miss             | Compulsory
+0x0008  | Miss             | Compulsory
+0x000c  | Miss             | Compulsory
+0x1000  | Miss             | Compulsory
+0x1004  | Miss             | Compulsory
+0x1008  | Miss             | Compulsory
+0x100c  | Miss             | Compulsory
+0x0000  | Miss             | Conflict
+0x0004  | Miss             | Conflict
+0x0008  | Miss             | Conflict
+0x000c  | Miss             | Conflict
+
+(c.3)
+miss rate = 
+hit time = 
+miss time = 
+AMAT =
+(no cache time) - AMAT =
+
+======= Problem 2 =======
+a. 100%
+b. Flip the i and j positions. This will allow us to have a 25% hit rate. 
+c.
+
+======= Problem 3 =======
+a. 0xC8A6
+b. -1698
+c. 67108864
+d. 2^-31
+e. 2^-55

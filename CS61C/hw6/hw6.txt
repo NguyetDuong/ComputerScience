@@ -1,0 +1,16 @@
+======= Problem 1 =======
+a. 32 bit width
+b. 2^(59) rows
+c. 2^(27) entries
+
+======= Problem 2 =======
+a. N/8 + 2 Misses
+b. 48 elements
+
+======= Problem 3 =======
+Access times [increases | decreases | stays the same] (Choose one.) 
+Explanation: Stays the same because we're still accessing it in order when we unroll stuff. Therefore everything should still be in the same pattern, and as a result, the access times should not change.
+
+======= Problem 4 =======
+a. 2^(13) bytes
+b. 2^(32) / ((4*2^(13)) + 8)

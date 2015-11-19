@@ -1,0 +1,32 @@
+===========================
+Exercise 1
+===========================
+I changed every constant's literal_value to 3 because fits all the cases such that it will print out the output that we wanted on the lab. 
+V0 == 3 because we want Happy to print 3 times
+V1 == 3 because the Joshua will print due to the switch-case, the other case that prints out Joshua will also print out another line afterwards due to the fact it does not have "break;"
+V2 == 3 because we want it to print "BEARS!" if V2 is true. V2 is true as long as it is not 0!
+V3 == 3 because we want it to print "Go", which will only be printed iff V2 == 3!
+
+The minimum number of different values is 1, as seen above, everything is 3. 
+
+===========================
+Exercise 2
+===========================
+1. r: insert_what_you_put_in
+2. break filename.c:line -- will allow us to break at that line
+3. n: will allow us to go through the next line of code & execute it
+4. s: will allow you to into the code of the function in order to debug it
+5. c: will allow us to continue the program after stopping at the break point
+6. print variable_name: will allow us to see what the value is inside the program
+7. display variable_name: will print out what the variable_name is after every line is read/executed
+8. info locals: will print out all of the local variables and its values
+9. quit: exits out gdb
+
+===========================
+Exercise 3
+===========================
+The reason of segmentation fault is we are not catching things correctly by not noticing that when we ran ll.equals the first time, b was directed to something null already. And as a result when we try to run it the second time, b is null and we try to keep looking -- there's nothing to continue looking.
+
+
+
+Segmentation Fault: index out of the bounds of the array we've declared (COULD -- not always in C)

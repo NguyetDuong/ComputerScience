@@ -1,0 +1,12 @@
+===========================
+        EXERCISE 1
+===========================
+1. .data, .word, .text are used to give instructions to the assembler but not the machines
+2. break right before 14 will allow us to set a break -- jk this doesn't work. After we assemble, we can Toggle-Breakpoints, and from there, checkmark the line we want to break at. 
+3. If we want to continue running the program we just press next.
+4. 34 gets printed. It is 9th Fib number
+5. The number 9 is stored in the address 0x10010010
+6. This means we have to find in the data segment the address above, and change it manually to the correct number we want (in hex)
+7. To view the contents in the register, just look at the registers for the list of items inside of it. There, we change the number 9 (in hex) to 13 in hex. 
+8. syscall is mainly called for outputs and inputs. We'd call it by loading the service number in register $v0 and then load any argument is necessary then finally call the syscall. 
+

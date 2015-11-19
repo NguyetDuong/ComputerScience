@@ -1,0 +1,55 @@
+NAME: Nguyet Minh Duong
+LOGIN: cs61c-cx
+
+Problem 1
+
+UNSIGNED
+Decimal |   Binary        | Hexadecimal| 
+========================================
+  10    |   0b0000 1010   |   0x0A   |
+  240   |   0b1111 0000   |   0xF0   |
+  15    |   0b0000 1111   |   0x0F   |
+  161   |   0b1010 0001   |   0xA1   |
+  250   |   0b1111 1010   |   0xFA   |
+  255   |   0b1111 1111   |   0xFF   |
+  204   |   0b1100 1100   |   0xCC   |
+  -35   |   n/a           |   n/a    |
+  128   |   0b1000 0000   |   0x80   |
+  105   |   0b0110 1001   |   0x69   |
+
+TWO'S COMPLEMENT
+Decimal |   Binary        | Hexadecimal| 
+========================================
+ -10    |   0b1111 0110   |   0xF6   |
+ -16    |   0b1111 0000   |   0xF0   |
+  15    |   0b0000 1111   |   0x0F   |
+ -95    |   0b1010 0001   |   0xA1   |
+  250   |   n/a           |   n/a    |
+ -1     |   0b1111 1111   |   0xFF   |
+ -52    |   0b1100 1100   |   0xCC   |
+ -35    |   0b1101 1101   |   0xBB   |
+  128   |   n/a           |   n/a    |
+  105   |   0b0110 1001   |   0x69   |
+
+Problem 2
+
+1. CHOICE: Signed
+   EXPLANATION: The only temperature scale that does not have negatives is Kelvin. Therefore celsius should be able to go into the negatives to represent colder temperatures.
+2. CHOICE: Both
+   EXPLANATION: It shouldn't manner if it has to do with the maximum distance because regardless of whatever number we start out with, the amount of numbers that can be created will remain the same since 8-bits will hold the same amount of numbers regardless since it deals with memory. 
+3. CHOICE: Unsigned
+   EXPLANATION:  Simply because you cannot have "negative" amount of boxes that has been shipped (if returns/sent back is not taken into consideration). Therefore the numbers representing the number of boxes shipped is positive always. 
+
+
+Problem 3
+a. 4^n
+b. 2^n/2
+c. 1
+d. 2^n - 1
+
+Problem 4
+Example: 3, CORRECT
+a. 0b0100 0000 + 0b0100 0000 = 0b1000 0000 = -128, INCORRECT -- overflow
+b. 0b1000 0001 + 0b0001 1110 = 0b1001 1111 = -97, CORRECT
+c. 0b1000 0001 + 0b1111 1111 = 0b1000 0000 = -128, CORRECT -- carry out MSB
+d. 0b0010 0110 + 0b1101 1000 = 0b1111 1110 =  -2, CORRECT
