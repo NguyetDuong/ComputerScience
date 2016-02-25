@@ -1,0 +1,37 @@
+#!/bin/bash
+
+here="$(pwd)"
+assgn=$(basename "$here")
+
+if grep "^[^ ?]" <(svn status) >/dev/null; then
+    echo "You may have uncommitted changes.  Commit first."
+    exit 1
+fi
+
+if [ -z "$MYREPOS" ]; then
+    if [ ! -f ~/.hwinit ]; then
+        echo "MYREPOS is not defined and .hwinit does not exist."
+        echo "Use 'hw' to create .hwinit."
+        exit 1
+    fi
+    source ~/.hwinit
+    export MYREPOS="$REPOS_URL"
+    export STAFFREPOS="$(dirname $MYREPOS)/staff"
+fi
+
+if [ -f staff-version ]; then
+   curr=$(cat staff-version)
+else
+   curr="$assgn-0"
+fi
+
+if ! svn merge --accept=postpone $STAFFREPOS/tags/$curr $STAFFREPOS/$assgn; then
+   echo "Something went wrong, sorry."
+   exit 1
+fi
+
+echo
+echo "Current status: files marked C have conflicts and should be edited." 
+svn status
+
+

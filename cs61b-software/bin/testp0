@@ -1,0 +1,37 @@
+#!/bin/bash
+
+Usage() {
+    echo "\
+Usage: testp0 NAME 
+    Runs 
+       java -ea game2048.Main --testing --no-display < testing/NAME.in > OUT, 
+    thus running the same test the testing script does on the input
+    file testing/NAME.in, saving its output in a file OUT.  Then
+    compares OUT with testing/NAME.out (if the latter exists) after
+    first filtering both files so that comments (#...) and blank lines
+    are ignored and multiple occurrences of the 'C' command are
+    compressed into one.  It prints out differences in 'unified diff'
+    format. Lines that start with + indicate lines that should be in
+    your output but aren't.  Those marked - indicate lines that should
+    not be in your output, but are.  Lines without a leading + or -
+    are lines context, common to both your file and the test output.
+    Lines starting with '@@' separate blocks of differing lines."
+    exit 1
+}
+
+if [ $# -ne 1 ]; then
+    Usage
+fi
+
+name="testing/$(basename $1 .in)"
+java -ea game2048.Main --testing --no-display < $name.in > OUT \
+   || exit 1
+script="/^ *#/ { next; } /^ *C/ { if (!haveC) { print }; haveC = 1; next } /./ { print; haveC = 0; }"
+
+if [ -f $name.out ]; then
+    diff -u <(nawk "$script" OUT) <(nawk "$script" $name.out) 
+fi
+
+
+
+

@@ -1,0 +1,67 @@
+#!/bin/bash
+
+if (($# == 0)); then
+    echo "\
+Usage: fix-hw <ASSIGNMENT>
+    Makes an emergency attempt to fix a broken SVN working directory---one
+    that cannot be committed for some reason.  <ASSIGNMENT> must be the name
+    of an assignment that you have already successfully initialized in the
+    repository (by hw init), and must also be the name of a directory under
+    the current directory.  This command first renames the directory,
+    effectively moving it to one side.   It then checks out a fresh copy of
+    the last version of the assignment that you committed.  Finally, it
+    copies all files (other than SVN-related metadata) from the renamed,
+    broken working directory into the newly checked-out one, overwriting the
+    contents of any common files. 
+
+    After running this command, go into directory <ASSIGNMENT>, make sure its
+    contents are what you intend, and use 'hw commit' to commit it (fix-hw
+    will NOT commit it or in any way change the repository---just your local
+    files).  The old, renamed directory will remain unchanged; you should remove
+    it when you're sure that the files you want have been committed.
+
+    WARNING: If you find yourself using this command with any regularity,
+    it is an indication that you are making some systematic error.  You
+    should probably ask the staff what you are doing wrong, so as to avoid it
+    in the future." 1>&2
+    exit 0
+fi    
+
+assgn=$1
+
+if [[ ! -d $assgn ]]; then
+    echo "fix-hw: Error.  There is no directory named $assgn here." 1>&2
+    exit 1
+fi
+
+if ! hw assignments | grep "^$assgn "; then
+    echo "fix-hw: Error. You do not seem to have" \
+         "initialized assignment $assgn." 1>&2
+    exit 1
+fi
+
+i=0
+while [[ -e $assgn.$i ]]; do
+    i=$(($i + 1))
+done
+assgn1="$assgn.$i"
+
+if mv $assgn $assgn1; then
+   echo "Directory $assgn renamed to $assgn1." 2>&1
+else
+   echo "fix-hw: Error. Could not rename $assgn to $assgn1." 2>&1
+fi
+
+if hw checkout $assgn; then
+    rsync -a --exclude .svn $assgn1/ $assgn
+    echo "Checked out fresh version of your last-committed $assgn, and" 1>&2
+    echo "copied your files from $assgn1 into it.  You should now" 1>&2
+    echo "check the files in $assgn and use 'hw commit' to commit them." 1>&2
+    echo "If there are files you intended to delete, you should do so" 1>&2 
+    echo "before committing." 1>&2
+    exit 0
+else
+    echo "fix-hw: Error.  Could not check out out last committed version of" \
+         "$assgn." 1>&2
+    exit 1
+fi

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+here=$(pwd)
+
+for f in $(awk '{ if ($1 == "C" || $2 == "C") print $NF; }' <(svn status)); do
+   svn resolve --accept=working $f
+done

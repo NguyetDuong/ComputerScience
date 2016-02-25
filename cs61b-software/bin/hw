@@ -1,0 +1,973 @@
+#!/usr/bin/env python3
+# -*-Python-*-
+
+import re, sys, os
+import subprocess
+from tempfile import mkstemp
+
+class Svn_Err(Exception):
+    pass
+
+PROG = os.path.basename(sys.argv[0])
+verbose = False
+
+DEFAULT_BASE_URL = "svn+ssh://cs61b-ta@torus.cs.berkeley.edu/"
+IGNORED_PATNS = \
+    list(map(re.compile,
+             (r'\.o$', r'\.lo$', r'\.la$', r'#.*#$', r'~$', r'.*\.rej$',
+              r'\.#', r'core$', r'\.DS_Store$',
+              r'\.pdf$', r'\.ps$', r'\.class$', r'\.jar$',
+              r'\.gif$', r'\.tiff$', r'\.pyc$',
+              r'OUT', r'ERR', r'sentinel$',
+              r'\.metadata$', r'\.mylar$', r'\.project$',
+              r'\.classpath$', r'workspace',
+              r'svn-commit', )))
+LOG_PROMPT = """\
+Enter a log message describing this commit, ending with a
+    line containing a single period (.).  Alternatively,
+    specify a file containing a log message by typing ~FILENAME
+    (tilde followed by the file's name)."""
+
+STAFF_URL = REPOS_URL = None
+
+def Help(*_):
+    print("""\
+Command: {prog} <subcommand> <arguments>
+
+In what follows, optional arguments are denoted with square brackets
+([]), and alternatives are separated by vertical bars (|).  When a
+command takes an argument that can be a directory (denoted "<dir>") it
+refers to a working directory and, if defaulted, refers to the current
+directory.
+
+Commands:
+
+    {prog} init <assignment>
+        Create a fresh working directory named <assignment> containing the
+        initial files (if any) for the assignment of that name. Commits
+        the working directory to your repository, creating an entry
+        for <assignment> (which must not have previously existed).
+    {prog} checkout <assignment>
+        Create a fresh working directory named <assignment> containing a copy
+        of the latest version of <assignment> from your repository.
+    {prog} checkout <assignment>-<number>
+        Create a fresh directory named <assignment>-<number> containing a copy
+        of the tag (submission) named <assignment>-<number> from the repository.
+        This is NOT a working copy, and cannot be committed back to the
+        repository.
+    {prog} checkout <assignment>-r<number>
+        Create a fresh directory named <assignment>-r<number> containing a copy
+        of previously committed revision <number> of <assignment> from
+        the repository. To find revision numbers for past commits, use
+        the '{prog} log' command.  The resulting directory is NOT
+        a working copy, and cannot be committed back to the repository.
+    {prog} update [ <dir> ]
+        Copies any changes in the repository copy of the assignment in <dir>
+        into <dir>.  Reports any conflicts (such as files in the working
+        directory that have been changed in a way that differs from how
+        the repository version was changed).
+    {prog} revert <file>
+        Reverts <file> to its state just after the last commit, checkout, or
+        init.  If <file> was modified or deleted, restores its previous
+        contents.
+    {prog} commit [ <dir> [ "<log message>" ]]
+        Copies the contents of <dir> to the repository, thus creating a new
+        version.  If <dir> is omitted, it defaults to '.', the current
+        directory.  First asks about any anomalies, such as files that have
+        been added, deleted, or incompletely merged.  If <log message>
+        (in quotes) is not supplied, asks for a log message either from
+        the terminal, or if possible, by means of an editor.
+    {prog} submit [ <dir> [ <tag-base> ] ]
+        Submit the contents of <dir>, creating a "tag".  If <dir> is omitted,
+        it defaults to '.', the current directory.  First runs various
+        checks that the submission is complete.  The directory must be the
+        top-level directory for an assignment.  The tag created has the form
+        <tag-base>-n, where n is a numeral chosen to differentiate this from
+        existing tags.  If <tag-base> is omitted, it defaults to the name
+        of the assignment being submitted.
+    {prog} notice <file or directory> ...
+        Stop ignoring each of the given files and directories, if they are
+        being ignored because of a previous user response (to the query
+        "Ignore ... in the future?").  Certain names (such as those
+        ending in ".class" are always ignored.
+    {prog} status [ <dir> ]
+        List the files in <dir> that differ from the contents of the
+        repository, indicating which are modified, and which are not tracked
+        (i.e., not in the repository in any version).
+    {prog} diff [ <file> | <dir> ] [ <revision number> ]
+        Reports differences between contents of <file or dir> (default,
+        current directory), and the last version of it that was checked out.
+    {prog} list [ <dir> ]
+        List all files in <dir> indicating any that are modified, or are not
+        tracked (i.e., not in the repository in any version). This is like
+        'status', but includes all files.
+    {prog} log [ <dir> ] [ <lim> ]
+        List log entries for commits of <dir>, most recent first.  If <lim>
+        is specified, it is an integer indicating the maximum number of entries.
+    {prog} assignments
+        Lists all the assignments in your trunk directory.  These are
+        assignments you've worked on, but not necessarily submitted yet.
+    {prog} submissions [ <assignment> ]
+        Lists all your submissions of <assignment> in the repository, or, if
+        assignment is defaulted, all your submissions of all assignments.\
+    {prog} help
+        This message.
+""".format(prog=PROG))
+
+
+def Usage():
+    print("""\
+Usage: {prog} <subcommand>
+
+Where subcommand is one of the following (optional arguments in [...]):
+
+    help
+    init <assignment>
+    checkout <assignment>
+    checkout <assignment>-<number>
+    checkout <assignment>-r<number>
+    update [ <dir> ]
+    revert <file>
+    commit [ <dir> [ "<log message>" ] ]
+    submit [ <dir> [ <tag-base> ] ] 
+    notice <file or dir> ...
+    status [ <dir> ]
+    diff [ <dir> ]
+    list [ <dir> ]
+    log [ <dir> [ <lim> ] ]
+    assignments
+    submissions [ <assignment> ]\
+""".format(prog=PROG))
+    sys.exit(1)
+
+LINE_LEN = 70
+
+def multiline(text, indent = 2):
+    result = ""
+    first = True
+    while text:
+        leng = LINE_LEN if first else LINE_LEN - indent
+        ind = 0 if first else indent
+        first = False
+        if len(text) <= leng:
+            return result + " " * ind + text
+        else:
+            k = text.rfind(' ', 0, leng)
+            if k == -1:
+                k = max(text.find(' ', leng), len(text))
+            result += " " * ind + text[:k] + "\n"
+            text = text[k:]
+    return result
+
+def Note(msg, *args):
+    print(multiline(msg.format(*args)), file=sys.stderr)
+
+def Error(msg, *args, usage=False, exit=True):
+    print("Error: ", msg.format(*args), file=sys.stderr)
+    if usage:
+        Usage()
+    if exit:
+        sys.exit(1)
+
+def RemoveFile(path):
+    if path:
+        try:
+            os.remove(path)
+        except:
+            pass
+
+def SvnError(excp):
+    args = excp.args
+    Error("There was a problem during 'svn {}' ({}).\n"
+          "  Other output from svn:\n{}", args[0], args[1],
+          '\n'.join(map(lambda x: "    " + x, re.split('\r?\n', args[2]))))
+
+def prompt_response(prompt, *args, default=None):
+    prompt = prompt.format(*args)
+    while True:
+        print(prompt, file=sys.stderr, end=' ')
+        sys.stderr.flush()
+        resp = sys.stdin.readline().strip()
+        if resp:
+            return resp.strip()
+        elif default is not None:
+            return default
+
+def yorn(prompt, *args, default=None):
+    prompt = prompt.format(*args)
+    if default is None:
+        prompt += " [yn]"
+    elif default:
+        prompt += " [y]"
+    else:
+        prompt += " [n]"
+    prompt = multiline(prompt)
+    while True:
+        resp = prompt_response(prompt, default="y" if default else "n")
+        if resp.lower() in ('y', 'yes'):
+            return True
+        if resp.lower() in ('n', 'no'):
+            return False
+
+MATCH = None
+def Match(regexp, text):
+    global MATCH
+    MATCH = re.match(regexp, text)
+    return MATCH
+
+def Search(regexp, text):
+    global MATCH
+    MATCH = re.search(regexp, text)
+    return MATCH
+
+def Group(k):
+    return MATCH.group(k)
+
+def Begin(k):
+    return MATCH.begin(k)
+
+def End(k):
+    return MATCH.end(k)
+
+def get_urls():
+    global STAFF_URL, REPOS_URL, TRUNK_URL, TAGS_URL
+    REPOS_URL = os.environ.get('MYREPOS', None)
+    STAFF_URL = os.environ.get('STAFFREPOS', None)
+    if REPOS_URL is None:
+        paramfile = os.path.join(os.path.expanduser("~"), ".hwinit")
+        try:
+            with open(paramfile) as inp:
+                params = inp.read()
+            if not REPOS_URL \
+               and Search(r'(?m)^\s*REPOS_URL\s*=\s*(\S+)', params):
+                   REPOS_URL = Group(1)
+        except IOError:
+            pass
+        if REPOS_URL is None:
+            while True:
+                url_or_login = prompt_response(
+                    "\nPlease enter your instructional login (e.g., cs61b-ab)\n"
+                    "      or the URL for your repository\n"
+                    "      (e.g. svn+ssh://cs61b-ta@torus.eecs.berkeley.edu/cs61b-ab)\n> ")
+                if Match(r'svn+ssh://[^/\s]+@[^/\s]+/[^/\s]+$'
+                         r'|file://\S+/(?:[^/@\s]+)$',
+                         url_or_login):
+                    REPOS_URL = url_or_login
+                elif Match(r'[^@/\s]+$', url_or_login):
+                    REPOS_URL = DEFAULT_BASE_URL + url_or_login
+                else:
+                    Note("'{}' does not seem to have the proper form. "
+                         "Please try again.", url_or_login)
+                    continue
+                if url_ok(REPOS_URL):
+                    break
+                else:
+                    Note("'{}' does not seem to be a valid repository URL, "
+                         "or you don't have access to it. "
+                         "Please try again.", REPOS_URL)
+            if yorn("Should I remember URL {} in future commands?", REPOS_URL):
+                try:
+                    with open(paramfile, "w") as out:
+                        print("REPOS_URL=" + REPOS_URL, file=out)
+                except:
+                    Error("could not write {}", paramfile)
+    if STAFF_URL is None:
+        if not Match(r'.*/', REPOS_URL):
+            Error("URL {} does not have proper form", REPOS_URL)
+        STAFF_URL = Group(0) + "staff"
+    TRUNK_URL = REPOS_URL + "/trunk"
+    TAGS_URL = REPOS_URL + "/tags"
+
+def url_ok(url):
+    _, rc = svn("info {}", url)
+    return rc == 0
+
+def ignored_name(path):
+    for p in IGNORED_PATNS:
+        if p.search(path):
+            return True
+    return False
+
+def svn(command, *args):
+    if args:
+        command = "svn " + command.format(*args)
+    if verbose:
+        print("Executing", command, file=sys.stderr)
+
+    proc = subprocess.Popen(command, shell=True,
+                            stderr=subprocess.STDOUT,
+                            stdout=subprocess.PIPE,
+                            stdin=subprocess.PIPE,
+                            universal_newlines=True)
+    out, _ = proc.communicate()
+    return out, proc.returncode
+
+def svn_status(dir):
+    """Return the results of 'svn status -u' on DIR (default, current directory).
+    Results are in the form of a list, one item per file or directory, with
+    each item being a 6-tuple of strings with the following form:
+        (N, M, P, R, C, E)
+    where
+    * N: Name of file or directory
+    * M: Modification status.  One of blank, 'A', 'D', 'M', 'R', 'C', 'X', 'I',
+         '?', '!', '~'
+    * P: Property modification status.  One of blank, 'M', 'C'.
+    * R: If the file may be revised in the repository, its working revision
+         number (as a string), or '?' if it has been deleted and appears to
+         be a subdirectory.  Otherwise False.
+    * C: True iff the file's status is in conflict with the repository verision.
+    * E: True iff the file is locked or otherwise problematic."""
+
+    text, code = svn("status -u {}", dir or "")
+    if code != 0:
+        raise Svn_Err("status", "command failed", text)
+    if Search(r'warning: .* is not a working copy', text):
+        raise Svn_Err("status", "directory is not a working copy", "")
+    files = []
+    for info in re.finditer(r'(?m)^(?:Status against| *>|'
+                            r'(.)(.)(.).(...) (.) {1,8}(\d+|\?|)\s*(\S.*))', text):
+        file_mod, prop_mod, locked, err_conditions, out_of_date, rev, name \
+                  = info.groups()
+        if not name or (file_mod == prop_mod == ' '
+                        and (not rev or name == '.')):
+            pass
+        else:
+            files.append((name, file_mod, prop_mod,
+                          out_of_date == '*' and rev,
+                          'C' in (file_mod + prop_mod + err_conditions),
+                          locked + err_conditions != '    '))
+    files.sort()
+    return files
+
+def svn_commit(dir=None, log=None, logFile=None):
+    if log:
+        text, code = svn("commit -m '{}' {}", log, dir or "")
+    elif logFile:
+        if not os.path.isfile(logFile):
+            Error("Log file {} is nonexistent or unreadable.", logFile)
+        text, code = svn("commit -F {} {}", logFile, dir or "")
+    else:
+        text, code = svn("commit {}", dir or "")
+    if code != 0:
+        raise Svn_Err("commit", "command failed", text)
+
+def svn_update(path=None):
+    text, code = svn("update --accept mine-full {}", path or "")
+    if code != 0:
+        raise Svn_Err("update", "command failed", text)
+    conflicts = False
+    for info in re.finditer(r'(?m)^(.)(.)(.)\s*(.*)', text):
+        if info.group(1) in 'CE' or info.group(2) == 'C':
+            conflicts = True
+    if conflicts:
+        raise Svn_Err('update', 'conflicts encountered', text)
+    return re.sub('.*\r?\n?\Z', '', text)
+
+def svn_copy(from_repos, from_dir, to_repos, to_dir,  msg):
+    text, code = svn("copy {}/{} {}/{} -m '{}'" ,
+                     from_repos, from_dir, to_repos, to_dir, msg)
+    if code != 0:
+        raise Svn_Err("copy", "command failed", text)
+
+def svn_checkout(from_repos, from_dir, to_dir):
+    text, code = svn("checkout {}/{} {}", from_repos, from_dir, to_dir)
+    if code != 0:
+        raise Svn_Err("checkout", "command failed", text)
+
+def svn_list(url, recurse=False):
+    text, code = svn("list {}{}", "-R " if recurse else "", url)
+    if code != 0:
+        raise Svn_Err("list", "command failed", text)
+    result = re.split(r'/?\s+', text)[:-1]
+    result.sort()
+    return result
+
+def svn_log(dir, lim):
+    if type(lim) is int and lim > 0:
+        text, code = svn("log -v --limit {} {}", lim, dir or "")
+    else:
+        text, code = svn("log -v {}", dir or "")
+    if code != 0:
+        raise Svn_Err("log", "command failed", text)
+    return text
+
+def svn_list_verbose(url):
+    text, code = svn("list --verbose {}", url)
+    if code != 0:
+        raise Svn_Err("list", "command failed", text)
+    result = [ (mat.group(2), mat.group(1))
+               for mat in re.finditer(r'(?m) *\d+ *\S+ *\d* *(\S.*) +?(\S+?)/?$',
+                                      text) ]
+    result.sort()
+    return result
+
+def svn_add(path):
+    text, code = svn("add --depth=empty {}", path)
+    if code != 0:
+        raise Svn_Err("add", "command failed", text)
+
+def svn_add_dir(path):
+    Note("Adding directory {}...", path)
+    svn_add(path)
+    listing, code = svn("status {}", path)
+    if code != 0:
+        return
+    for line in re.split(r'\r?\n', listing):
+        if Match(r'\s*\?\s*(\S.*?)\s*$', line):
+            name = Group(1)
+            if ignored_name(name):
+                if verbose:
+                    Note("Skipping {}", name)
+            elif yorn("Add {0}?", name, default=True):
+                if os.path.isdir(name):
+                    svn_add_dir(name)
+                else:
+                    svn_add(name)
+            elif yorn("Ignore {0} in the future?", name, default=False):
+                svn_ignore(path, name)
+    Note("Finished adding directory {}", path)
+
+def svn_update_and_remove(path):
+    Note("First restoring {} for proper deletion.", path)
+    text, code = svn("update --accept mine-full --depth=empty {}", path)
+    if code != 0:
+        raise Svn_Err("update", "command failed", text)
+    svn_remove(path)
+
+def svn_remove(path):
+    text, code = svn("remove {}", path)
+    if code != 0:
+        raise Svn_Err("remove", "command failed", text)
+
+def svn_export(repos, dir, path, revision = None):
+    if revision is None:
+        text, code = svn("export {}/{} {}", repos, dir, path)
+    else:
+        text, code = svn("export {}/{}@{} {}", repos, dir, revision, path)
+    if code != 0:
+        raise Svn_Err("export", "command failed", text)
+
+def svn_diff(path, rev):
+    if rev is None:
+        text, code = svn("diff {}", path)
+    else:
+        text, code = svn("diff -r{} {}", rev, path)
+    if code != 0:
+        raise Svn_Err("diff", "command failed", text)
+    return text
+
+def svn_revert(path):
+    text, code = svn("revert {}", path)
+    if code != 0:
+        raise Svn_Err("revert", "command failed", text)
+    return text
+
+def svn_ignore(dir, patns):
+    out, code = svn("propget svn:ignore {}", dir)
+    if code != 0:
+        return None
+    ignored = set(re.split(r'(?:\r?\n)+', out.strip()))
+    if type(patns) is str:
+        patns = set(re.split(r'(?:\r?\n)+', patns.strip()))
+    if type(patns) is not set:
+        patns = set(patns)
+    added = patns - ignored
+    if added:
+        ignored |= added
+        ignored = list(ignored)
+        ignored.sort()
+        _, code = svn("propset svn:ignore '{}' {}", '\n'.join(ignored), dir)
+        if code != 0:
+            return None
+    return added
+
+def svn_unignore(dir, patns):
+    out, code = svn("propget svn:ignore {}", dir)
+    if code != 0:
+        return None
+    ignored = set(re.split(r'(?:\r?\n)+', out.strip()))
+    if type(patns) is str:
+        patns = set(re.split(r'(\r?\n)+', patns.strip()))
+    if type(patns) is not set:
+        patns = set(patns)
+    patns &= ignored
+    if patns:
+        ignored -= patns
+        ignored = list(ignored)
+        ignored.sort()
+        _, code = svn("propset svn:ignore '{}' {}", '\n'.join(ignored), dir)
+    return patns
+
+def in_svn_dir(dir=None):
+    text, code = svn("info {}", dir or "")
+    return code == 0
+
+def in_top_svn_dir(dir=None):
+    dir = dir or "."
+    return in_svn_dir(dir) \
+           and not in_svn_dir(os.path.dirname(os.path.abspath(dir)))
+
+def get_url(dir=None):
+    text, code = svn("info {}", dir or "")
+    if code == 0 and Search(r'(?m)^URL: (.*)', text):
+        return Group(1)
+    else:
+        return None
+
+def get_url_base(dir=None):
+    url = get_url(dir)
+    if url is not None and Match(r'.*/(.*)', url):
+        return Group(1)
+    else:
+        return None
+
+def get_log_source(text=None):
+    removeFile = False
+    logFileName = None
+
+    if text is None:
+        if 'DISPLAY' not in os.environ or \
+           'HW_NO_EDITOR' in os.environ or \
+               not ({ 'SVN_EDITOR', 'VISUAL', 'EDITOR' } & set(os.environ)):
+            Note(LOG_PROMPT)
+            line = sys.stdin.readline()
+            if Match(r'\s*~\s*(.*?)\s*$', line):
+                logFileName = None, Group(1)
+            else:
+                text = ''
+                while not Match(r'$|\.\r?\n', line):
+                    text += line
+                    line = sys.stdin.readline()
+        else:
+            return None, False
+    if logFileName is None:
+        logFd, logFileName = mkstemp()
+        removeFile = True
+        logFile = os.fdopen(logFd, "w")
+        logFile.write(text)
+        logFile.close()
+
+    return logFileName, removeFile
+
+def expand_command(word):
+    def subseq(x, y):
+        return Match(re.sub('.', lambda z: z.group(0)+"?", y)+"$", x)
+
+    if word in COMMAND_MAP:
+        return word
+    matches = [ c for c in COMMAND_MAP
+                if c[0] == word[0] and subseq(word[1:], c[1:]) ]
+    if not matches:
+        Error("command '{}' is unknown", word, usage=True)
+    elif len(matches) > 1:
+        Error("'{}' is ambiguous {}", word, tuple(matches))
+    else:
+        return matches[0]
+
+def main(args):
+    global verbose
+
+    while len(args) > 0 and args[0].startswith('-'):
+        if args[0] == '-v' or args[0] == '--verbose':
+            verbose = True
+            del args[0]
+        else:
+            Usage()
+
+    if len(args) == 0:
+        Usage()
+        return
+    c = expand_command(args[0])
+
+    low, high, proc = COMMAND_MAP.get(c, (0, -1, None))
+    if low <= len(args) - 1 <= high:
+        try:
+            proc(args[1:])
+        except Svn_Err as excp:
+            SvnError(excp)
+        except KeyboardInterrupt:
+            Error("Interrupted.")
+    else:
+        Usage()
+
+def do_init(args):
+    get_urls()
+    assgn = args[0]
+    if assgn not in svn_list(STAFF_URL):
+        Error("unknown assignment: {}", assgn)
+    if in_svn_dir():
+        Error("you should not be in a working directory when executing 'init'")
+    if os.path.exists(assgn):
+        Error("a directory named {} already exists here", assgn)
+    if assgn in svn_list(TRUNK_URL):
+        Error("you have already started assignment {}.\n"
+              "\tUse checkout or update instead.",
+              assgn)
+
+    try:
+        svn_copy(STAFF_URL, assgn, TRUNK_URL, assgn, 'Start ' + assgn)
+        svn_checkout(TRUNK_URL, assgn, assgn)
+        print("Assignment checked out into directory", assgn)
+    except Svn_Err as excp:
+        SvnError(excp)
+
+def do_update(args):
+    try:
+        dir = args[0] if args else None
+        if not in_top_svn_dir(dir):
+            Note("Doing a partial update only.")
+        conflicts = []
+        other_errs = []
+        for (name, mod, prop, revised, conflict, errs) in svn_status(dir):
+            if conflict or (revised and mod+prop != '  '):
+                conflicts.append(name)
+            elif errs:
+                other_errs.append(name)
+        if conflicts:
+            Error("""\
+the working versions of the following files are in conflict
+with the repository versions:
+    {}
+This generally results when you have two different working copies of the same
+repository entry, commit changes to one of them, and then make conflicting
+changes to the other directory without first updating it with the changes
+to the first directory.  You can fix this by reverting the conflicted files
+(or moving them aside temporarily) and then trying to update again.""",
+                  '\n    '.join(conflicts))
+        if other_errs:
+            Error("There is some sort of problem with the following files:"
+                  "\n    {}\nPlease see a staff member.",
+                  '\n    '.join(conflicts))
+        svn_update(dir)
+    except Svn_Err as excp:
+        SvnError(excp)
+
+def do_revert(args):
+    try:
+        path = args[0]
+        if not os.path.exists(path):
+            Note("Updating {}", path)
+            result = svn_update(path)
+            if result == '':
+                Note("No change indicated for '{}'", path)
+            return
+        if os.path.isdir(path):
+            Error("Can only revert individual files or totally missing directories.")
+        result = svn_revert(path)
+        if result == '':
+            Note("No change indicated for '{}'", path)
+        elif result.startswith('Skipped'):
+            Note("'{}' skipped: not under version control or not revertible",
+                 path)
+        elif result.startswith('Reverted'):
+            Note("'{}' restored", path)
+    except Svn_Err as excp:
+        SvnError(excp)
+
+def do_commit(args):
+    dir = args[0] if args else '.'
+    msg = args[1] if len(args) > 1 else None
+    if not in_svn_dir(dir):
+        Error("The specified directory does not appear to be an assignment directory.")
+    elif not in_top_svn_dir(dir):
+        Error("You appear to have specified a subdirectory of an assignment.\n"
+              "You should commit entire assignments at a time.")
+    try:
+        conflicts = False
+        additions = []
+        deletions = []
+        ignore = []
+        for (name, mod, prop, revised, conflict, errs) in svn_status(dir):
+            if errs or conflict \
+               or (revised and (mod not in "! " or prop != " ")):
+                   conflicts = True
+            elif mod == '?':
+                if ignored_name(name):
+                    if verbose:
+                        Note("Skipping {}", name)
+                elif revised:
+                    Note("Conflict? {0} seems new, but is modified "
+                         "in the repository", name)
+                elif yorn("{0} is untracked, add it?", name, default=True):
+                    additions.append(name)
+                elif yorn("Ignore {0} in the future?", name, default=False):
+                    ignore.append(name)
+            elif mod == '!':
+                if yorn("{0} has been deleted. Really remove from the repository?",
+                        name, default=True):
+                    deletions.append(name)
+                else:
+                    Note("Restoring {0}.", name)
+                    svn_update(name)
+        if conflicts:
+            Error("conflicts detected.  Use '{} status' for details.", PROG)
+        for name in additions:
+            if os.path.isdir(name):
+                svn_add_dir(name)
+            else:
+                svn_add(name)
+        for name in deletions:
+            svn_update_and_remove(name)
+        for name in ignore:
+            svn_ignore(os.path.dirname(name) or '.', os.path.basename(name))
+
+        Note("Updating{}...", " " + dir if dir else "")
+        do_update(args)
+        if svn_status(dir):
+            logFileName, removeFile = get_log_source(msg)
+            Note("Committing changes...")
+            svn_commit(dir, logFile=logFileName);
+            if removeFile:
+                RemoveFile(logFileName)
+            Note("Updating...")
+            svn_update(dir)
+    except Svn_Err as excp:
+        SvnError(excp)
+
+def do_submit(args):
+    get_urls()
+    dir = args[0] if args else None
+    tag_base = args[1] if len(args) > 1 else None
+    Note("Making sure changes are committed...")
+    do_commit(args)
+    tags = svn_list(TAGS_URL)
+    assgn = get_url_base(dir)
+    tag_base = tag_base or assgn
+    i = 1
+    while True:
+        tag = "{}-{}".format(tag_base, i)
+        if tag not in tags:
+            break
+        i += 1
+    try:
+        Note("Submitting {}...", tag)
+        svn_copy(TRUNK_URL, assgn, TAGS_URL, tag,
+                 "Assignment {}, submission {}".format(assgn, i))
+        Note("Submission complete.")
+    except Svn_Err as excp:
+        SvnError(excp)
+
+def do_status(args, all_files=False):
+    dir = args[0] if args else None
+    try:
+        entries = svn_status(dir)
+        if all_files:
+            unmodified = svn_list(get_url(dir), recurse=True)
+        else:
+            unmodified = []
+    except Svn_Err as excp:
+        SvnError(excp)
+
+    untracked = []
+    conflicts = []
+    other_errs = []
+    adds = []
+    mods = []
+    dels = []
+    updates = []
+    ignored = []
+    for e in entries:
+       (name, mod, prop, revised, conflict, err) = e
+       if conflict or (revised and (mod not in '! ' or prop != ' ')):
+           L = conflicts
+       elif err:
+           L = other_errs
+       elif revised:
+           L = updates
+       elif prop == 'M':
+           L = mods
+       elif mod == '?' and ignored_name(name):
+           L = []
+       else:
+           L = { 'A': adds, 'R': mods, 'M': mods, 'D': dels, '!': dels,
+                 'I': ignored, '?': untracked}[mod]
+       L.append(name)
+       if name in unmodified:
+           unmodified.remove(name)
+
+    changed = False
+    for title, L in \
+        ( ("Files and directories that are not in the repository yet,\n"
+              "  but will be added by '{} commit'".format(PROG),
+           untracked),
+          ("Files you have modified, but not committed", mods),
+          ("Files and directories you have explicitly added, but not committed",
+           adds),
+          ("Files and directories you have deleted, but not committed",
+           dels),
+          ("Files that are modified in the repository, but that you haven't\n"
+           "  yet retrieved with '{} update'".format(PROG),
+           updates),
+          ("Files that you have modified locally, and have also been modified\n"
+           "  in the repository and not retrieved, causing a potential conflict",
+           conflicts),
+          ("Files that you have modified, causing errors (see a staff member)",
+           other_errs),
+          ("Unmodified tracked files", unmodified),
+          ):
+        if L:
+            changed = True
+            print(title + ":")
+            print("   ", '\n    '.join(L))
+            print()
+    if not changed:
+        print("No changes since last commit")
+
+def do_list(args):
+    do_status(args, True)
+
+def do_diff(args):
+    if len(args) == 1:
+        try:
+            rev = abs(int(args[0]))
+            path = '.'
+        except:
+            rev = None
+            path = args[0] or '.'
+    elif len(args) == 2:
+        path = args[0] or '.'
+        try:
+            rev = abs(int(args[1]))
+        except:
+            Error("invalid number: {}", args[1])
+    else:
+        path = '.'
+        rev = None
+    try:
+        diffs = svn_diff(path, rev)
+        if diffs:
+            if rev is None:
+                Note("Modifications to files "
+                     "('+' lines are additions; '-' deletions):")
+            else:
+                Note("Modifications to files since revision {}", rev)
+                Note("    ('+' lines are additions; '-' deletions):")
+            print(diffs)
+    except Svn_Err as excp:
+        SvnError(excp)
+
+def do_log(args):
+    if len(args) == 1:
+        try:
+            lim = abs(int(args[0]))
+            dir = None
+        except:
+            lim = None
+            dir = args[0]
+    elif len(args) == 2:
+        dir = args[0]
+        try:
+            lim = abs(int(args[1]))
+        except:
+            Error("invalid number: {}", args[1])
+    else:
+        dir = lim = None
+    try:
+        print(svn_log(dir, lim))
+    except Svn_Err as excp:
+        SvnError(excp)
+
+def do_checkout(args):
+    get_urls()
+    assgn = args[0]
+    try:
+        if in_svn_dir():
+            Error("you should not be in a working directory when "
+                  "executing 'checkout'")
+        if os.path.exists(assgn):
+            Error("a directory named {} already exists here", assgn)
+        if Match(r'.*-\d+$', assgn):
+            if assgn not in svn_list(TAGS_URL):
+                Error("you do not have a submission labeled {}.", assgn)
+            svn_export(TAGS_URL, assgn, assgn)
+            Note("Submissions exported into directory {}", assgn)
+        elif Match(r'(.*)-r(\d+)$', assgn):
+            svn_export(TRUNK_URL, Group(1), assgn, revision=Group(2))
+            Note("Assignment {} from revision {} exported into {}",
+                 Group(1), Group(2), assgn)
+        else:
+            if assgn not in svn_list(STAFF_URL):
+                Error("unknown assignment: {}", assgn)
+
+            if assgn not in svn_list(TRUNK_URL):
+                Error("you have not started assignment {} yet.\n"
+                      "\tUse init instead.",
+                      assgn)
+            svn_checkout(TRUNK_URL, assgn, assgn)
+            Note("Assignment checked out into directory {}", assgn)
+    except Svn_Err as excp:
+        SvnError(excp)
+
+def do_notice(args):
+    noticed = set()
+    for f in args:
+        if ignored_name(f):
+            Note("Name {} is always ignored.", f)
+        else:
+            noticed |= svn_unignore(os.path.dirname(f) or '.',
+                                    os.path.basename(f))
+    noticed = list(noticed)
+    noticed.sort()
+    Note("Will now notice file(s):\n    {}", "\n    ".join(noticed))
+    Note("  Use 'hw commit' to make this permanent.")
+
+def submission_sort(name_date):
+    if Match(r'(.*)-(\d+)', name_date[0]):
+        return (Group(1), int(Group(2)))
+    else:
+        return (name_date[0], )
+
+def do_assignments(args):
+    get_urls()
+    assignments = [s for s in svn_list_verbose(TRUNK_URL)
+                   if not Match(r'\.', s[0])]
+    if not assignments:
+        print("No assignment directories found")
+    else:
+        assignments.sort(key = submission_sort)
+        width = max((len(name) for name, date in assignments))
+        format = "{:<" + str(width+2) + "} {}"
+        for s in assignments:
+            print(format.format(s[0], s[1]))
+
+def do_submissions(args):
+    get_urls()
+    assgn = args[0] if args else None
+
+    if assgn:
+        patn = r"({})-(\d+)$".format(assgn)
+    else:
+        patn = r"(.*)-(\d+)$"
+    submissions = [ s for s in svn_list_verbose(TAGS_URL) if Match(patn, s[0]) ]
+    if not submissions:
+        if assgn:
+            print("No submissions of", assgn, "found".format(assgn))
+        else:
+            print("No submissions found")
+    else:
+        submissions.sort(key = submission_sort)
+        width = max((len(name) for name, date in submissions))
+        format = "{:<" + str(width+2) + "} {}"
+        for s in submissions:
+            print(format.format(s[0], s[1]))
+
+COMMAND_MAP = {
+    'init': (1, 1, do_init),
+    'update': (0, 1, do_update),
+    'revert': (1, 1, do_revert),
+    'commit': (0, 2, do_commit),
+    'submit': (0, 2, do_submit),
+    'status': (0, 1, do_status),
+    'diff': (0, 2, do_diff),
+    'list': (0, 1, do_list),
+    'log': (0, 2, do_log),
+    'checkout': (1, 1, do_checkout),
+    'notice': (1, 2048, do_notice),
+    'assignments': (0, 0, do_assignments),
+    'submissions': (0, 1, do_submissions),
+    'help': (0, 0, Help),
+}
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
+
